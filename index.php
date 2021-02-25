@@ -1,8 +1,5 @@
 <?php
 session_start();
-// if(isset($_SESSION['permisstion'])){
-//   $_SESSION['permisstion'] = "";
-// }
 ?>
 
 <!DOCTYPE html>
@@ -89,8 +86,8 @@ session_start();
             if (isset($_SESSION['permisstion'])) {
               // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"blog.php\">ADMIN</a></li>");
               if ($_SESSION['permisstion'] == 'User') {
-                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"service.php\">บริการ</a></li>");
-                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"booking.php\">จองคิว</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/service.php\">บริการ</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/booking.php\">จองคิว</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"contact.php\">ติดต่อ</a></li>");
               } else if ($_SESSION['permisstion'] == 'Admin') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_package.php\">จัดการแพ็คเกจ</a></li>");
@@ -102,7 +99,7 @@ session_start();
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"detail_booking.php\">ข้อมูลการจองคิว</a></li>");
               }
             } else {
-              echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"service.php\">บริการ</a></li>");
+              echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/service.php\">บริการ</a></li>");
               echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"contact.php\">ติดต่อ</a></li>");
             }
             ?>
@@ -223,19 +220,19 @@ session_start();
     </div>
   </div>
 
-    <!-- Footer Starts Here -->
-    <div class="sub-footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <p>
-                        Copyright © 2020 MP GARAGE Name
-                        - CREATE by: MP GARAGE
-                    </p>
-                </div>
-            </div>
+  <!-- Footer Starts Here -->
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            Copyright © 2020 MP GARAGE Name
+            - CREATE by: MP GARAGE
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
