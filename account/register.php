@@ -1,7 +1,7 @@
   <?php
   include_once('../server.php');
   include_once('../classes/Register.php');
-  
+
   $userdata = new DB_con();
   $register = new Register($userdata->dbcon);
 
@@ -14,7 +14,7 @@
     $phone = $_POST['phone'];
 
     $sql = $register->Register($username, $name, $password, $re_password, $phone);
-    
+
     if ($sql) {
       echo "<script>alert('Registor Successful!');</script>";
       echo "<script>window.location.href='../index.php'</script>";

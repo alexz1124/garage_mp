@@ -5,13 +5,14 @@ include_once('../classes/Member.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
-$ss = "alex";
+
 $result = $member->Select_member();
 
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
+$__name = $_GET['name'];
+// $__phone = $_GET['phone'];
+// $__id = $_GET['id'];
+
+echo $__name;
 ?>
 
 <!DOCTYPE html>
@@ -120,39 +121,42 @@ $result = $member->Select_member();
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form method="POST">
+                        
+                            <div class="form-group">
+                                <label class="sr-only" for="username">Username</label>
+                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="name">Name</label>
+                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $__name ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="password">New Password</label>
+                                <input type="password" name="password" placeholder="New Password..." class="form-username form-control" id="password" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="re-password">Confirm New Password</label>
+                                <input type="password" name="re-password" placeholder="Confirm New Password..." class="form-username form-control" id="re-password" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="phone">Phone Number</label>
+                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" required>
+                            </div>
+
+                            
+                            
+                            <div class="p-t-10">
+                                <button class="btn btn--pill btn--green" type="submit" name="submit">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
-                    <table id="myTable">
-                        <tr class="header">
-                            <th style="width:3%;">#</th>
-                            <th style="width:25%;">ชื่อผู้ใช้งาน</th>
-                            <th style="width:25%;">ชื่อ</th>
-                            <th style="width:20%;">เบอร์โทรศัพท์</th>
-                            <th style="width:10%;">สถานะผู้ใช้งาน</th>
-                            <th style="width:20%;">แก้ไข/ลบ</th>
-                        </tr>
 
-
-                        <?php while ($num = mysqli_fetch_array($result)) :
-                            echo ("<tr>
-                                    <th>" . 1 . "</th>
-                                    <td id = \"username\">" . $num["r_username"] . "</td>
-                                    <td id = \"name\">" . $num["r_name"] . "</td>
-                                    <td id = \"phone\">" . $num["r_phone"] . "</td>
-                                    <td id = \"status\">" . $num["r_status"] . "</td>
-                                    
-                                    <td><a href=\"form_edit.php?name=" . $num["r_name"] . "\"><i class=\"fas fa-edit\"></i></a> /
-                                        <a href=\"form_delete.php?name=" . $ss . "\"><i class=\"fas fa-trash\"></i></a>
-                                    </td>
-                                </tr>");
-                        endwhile ?>
-
-                    </table>
-                </form>
 
             </div>
         </div>
