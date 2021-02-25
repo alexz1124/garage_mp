@@ -96,7 +96,7 @@ session_start();
               } else if ($_SESSION['permisstion'] == 'Owner') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"owner/report.php\">ดูรายงาน</a></li>");
               } else if ($_SESSION['permisstion'] == 'Employee') {
-                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"detail_booking.php\">ข้อมูลการจองคิว</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"employee/detail_booking.php\">ข้อมูลการจองคิว</a></li>");
               }
             } else {
               echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/service.php\">บริการ</a></li>");
