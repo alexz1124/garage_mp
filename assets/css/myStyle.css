@@ -1,0 +1,64 @@
+header .navbar {
+  padding: 20px 0px;
+  background-color: rgb(59, 56, 56);
+  z-index: -1000;
+}
+
+header {
+  background-color: rgb(59, 56, 56);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 16px;
+}
+
+#myTable th,
+#myTable td {
+  text-align: center;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header,
+#myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+td a i {
+  color: black;
+}
+td a i:hover {
+  color: blue;
+}
+
+.modal {
+  z-index: 100001 !important;
+}
+
+body.modal-open {
+  overflow: auto;
+}
+
+body {
+  overflow: hidden;
+}
