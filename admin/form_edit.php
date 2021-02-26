@@ -10,7 +10,7 @@ $__id = $_GET['id'];
 
 $result = $member->Select_member($__id);
 $num = mysqli_fetch_array($result);
-
+$status = $num['r_status'];
 
 if (isset($_POST['_EDIT'])) {
 
@@ -19,9 +19,9 @@ if (isset($_POST['_EDIT'])) {
     $password = $_POST['password'];
     $re_password = $_POST['re-password'];
     $phone = $_POST['phone'];
+    $status = $_POST['status'];
 
-
-    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone);
+    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone, $status);
     if ($result) {
         header('Location: manage_user.php');
         die();
@@ -146,23 +146,34 @@ if (isset($_POST['_EDIT'])) {
                         <form name="formedit" action="" method="post">
 
                             <div class="form-group">
-                                <label class="sr-only" for="user">Username</label>
+                                <label for="status">สถานะผู้ใช้งาน</label>
+                                <select name="status" class="custom-select">
+                                    <option selected value="<?php echo $num['r_status']; ?>">สถานะผู้ใช้งาน</option>
+                                    <option value="Owner">Owner</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="User">User</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user">ชื่อผู้ใช้งาน</label>
                                 <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="name">Name</label>
+                                <label for="name">ชื่อ</label>
                                 <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="password">New Password</label>
+                                <label for="password">รหัสผ่าน</label>
                                 <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="re-password">Confirm New Password</label>
+                                <label for="re-password">ยืนยันรหัสผ่าน</label>
                                 <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="phone">Phone Number</label>
+                                <label for="phone">หมายเลขโทรศัพท์</label>
                                 <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
                             </div>
                             <div class="form-group">

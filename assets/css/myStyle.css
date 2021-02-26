@@ -62,3 +62,7 @@ body.modal-open {
 body {
   overflow: auto;
 }
+label {
+
+  font-size: .8rem;
+}

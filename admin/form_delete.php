@@ -130,18 +130,22 @@ if (isset($_POST['_DELETE'])) {
                     </div>
 
                     <div class="form-bottom">
-                    <form name="formdelete" action="" method="post">
-
+                        <form name="formdelete" action="" method="post">
                             <div class="form-group">
-                                <label class="sr-only" for="username">Username</label>
+                                <label for="status">สถานะผู้ใช้งาน</label>
+                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="username">ชื่อผู้ใช้งาน</label>
                                 <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="name">Name</label>
+                                <label for="name">ชื่อ</label>
                                 <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
                             </div>
                             <div class="form-group">
-                                <label class="sr-only" for="phone">Phone Number</label>
+                                <label for="phone">หมายเลขโทรศัพท์</label>
                                 <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
                             </div>
                             <div class="form-group">
