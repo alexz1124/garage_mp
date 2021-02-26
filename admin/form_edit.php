@@ -6,13 +6,32 @@ include_once('../classes/Member.php');
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
 
-$result = $member->Select_member();
+$__id = $_GET['id'];
 
-$__name = $_GET['name'];
-// $__phone = $_GET['phone'];
-// $__id = $_GET['id'];
+$result = $member->Select_member($__id);
+$num = mysqli_fetch_array($result);
 
-echo $__name;
+
+if (isset($_POST['_EDIT'])) {
+
+    $username = $_POST['user'];
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $re_password = $_POST['re-password'];
+    $phone = $_POST['phone'];
+
+
+    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone);
+    if ($result) {
+        header('Location: manage_user.php');
+        die();
+    }
+}
+// while($num = mysqli_fetch_array($result)) {
+//     echo $num['r_name']; 
+//     echo '<br>';
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +102,7 @@ echo $__name;
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.php">
+                <a class="navbar-brand" href="../index.php">
                     <h2>Blog <em> Website</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -120,37 +139,35 @@ echo $__name;
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
+                        <h2>แก้ไข<em>ผู้ใช้งาน</em></h2>
                     </div>
 
                     <div class="form-bottom">
-                        <form method="POST">
-                        
+                        <form name="form" action="" method="post">
+
                             <div class="form-group">
-                                <label class="sr-only" for="username">Username</label>
-                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" disabled>
+                                <label class="sr-only" for="user">Username</label>
+                                <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="name">Name</label>
-                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $__name ?>" required>
+                                <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="password">New Password</label>
-                                <input type="password" name="password" placeholder="New Password..." class="form-username form-control" id="password" required>
+                                <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="re-password">Confirm New Password</label>
-                                <input type="password" name="re-password" placeholder="Confirm New Password..." class="form-username form-control" id="re-password" required>
+                                <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="phone">Phone Number</label>
-                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" required>
+                                <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
                             </div>
-
-                            
-                            
-                            <div class="p-t-10">
-                                <button class="btn btn--pill btn--green" type="submit" name="submit">Submit</button>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" name="_EDIT" class="btn btn-success">ยืนยัน</button>
                             </div>
                         </form>
                     </div>
@@ -220,8 +237,8 @@ echo $__name;
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function alert() {
+        alert(55);
     }
 </script>
 

@@ -5,13 +5,22 @@ include_once('../classes/Member.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
-$ss = "alex";
-$result = $member->Select_all_member();
+
+// $result = $member->Select_member();
+
+
+$__id = $_GET['id'];
+// $__phone = $_GET['phone'];
+// $__id = $_GET['id'];
+
+$result = $member->Select_member($__id);
+$num = mysqli_fetch_array($result);
 
 // while($num = mysqli_fetch_array($result)) {
 //     echo $num['r_name']; 
 //     echo '<br>';
 // }
+
 ?>
 
 <!DOCTYPE html>
@@ -119,40 +128,33 @@ $result = $member->Select_all_member();
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form method="POST">
+
+                            <div class="form-group">
+                                <label class="sr-only" for="username">Username</label>
+                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="name">Name</label>
+                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="phone">Phone Number</label>
+                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" class="btn btn-danger">ลบผู้ใช้งาน</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
-                    <table id="myTable">
-                        <tr class="header">
-                            <th style="width:3%;">#</th>
-                            <th style="width:25%;">ชื่อผู้ใช้งาน</th>
-                            <th style="width:25%;">ชื่อ</th>
-                            <th style="width:20%;">เบอร์โทรศัพท์</th>
-                            <th style="width:10%;">สถานะผู้ใช้งาน</th>
-                            <th style="width:20%;">แก้ไข/ลบ</th>
-                        </tr>
 
-
-                        <?php while ($num = mysqli_fetch_array($result)) :
-                            echo ("<tr>
-                                    <th>" . 1 . "</th>
-                                    <td id = \"username\">" . $num["r_username"] . "</td>
-                                    <td id = \"name\">" . $num["r_name"] . "</td>
-                                    <td id = \"phone\">" . $num["r_phone"] . "</td>
-                                    <td id = \"status\">" . $num["r_status"] . "</td>
-                                    
-                                    <td><a href=\"form_edit.php?id=" . $num["id"] . "\"><i class=\"fas fa-edit\"></i></a> /
-                                        <a href=\"form_delete.php?id=" . $num["id"] . "\"><i class=\"fas fa-trash\"></i></a>
-                                    </td>
-                                </tr>");
-                        endwhile ?>
-
-                    </table>
-                </form>
 
             </div>
         </div>
