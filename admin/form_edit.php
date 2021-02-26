@@ -143,7 +143,7 @@ if (isset($_POST['_EDIT'])) {
                     </div>
 
                     <div class="form-bottom">
-                        <form name="form" action="" method="post">
+                        <form name="formedit" action="" method="post">
 
                             <div class="form-group">
                                 <label class="sr-only" for="user">Username</label>

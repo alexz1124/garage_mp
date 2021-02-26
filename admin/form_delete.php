@@ -6,21 +6,19 @@ include_once('../classes/Member.php');
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
 
-// $result = $member->Select_member();
-
-
 $__id = $_GET['id'];
-// $__phone = $_GET['phone'];
-// $__id = $_GET['id'];
+
 
 $result = $member->Select_member($__id);
 $num = mysqli_fetch_array($result);
 
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
-
+if (isset($_POST['_DELETE'])) {
+    $result = $member->Delete_member($__id);
+    if ($result) {
+        header('Location: manage_user.php');
+        die();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -132,7 +130,7 @@ $num = mysqli_fetch_array($result);
                     </div>
 
                     <div class="form-bottom">
-                        <form method="POST">
+                    <form name="formdelete" action="" method="post">
 
                             <div class="form-group">
                                 <label class="sr-only" for="username">Username</label>
@@ -148,7 +146,7 @@ $num = mysqli_fetch_array($result);
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger">ลบผู้ใช้งาน</button>
+                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
                             </div>
                         </form>
                     </div>

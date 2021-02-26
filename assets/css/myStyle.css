@@ -60,5 +60,5 @@ body.modal-open {
 }
 
 body {
-  overflow: hidden;
+  overflow: auto;
 }

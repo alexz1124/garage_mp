@@ -126,7 +126,7 @@ $result = $member->Select_all_member();
 
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                 <form name="table_user" action="form.php" method="POST" style="width: 100%;">
-                    <table id="myTable">
+                    <table id="myTable" class="table">
                         <tr class="header">
                             <th style="width:3%;">#</th>
                             <th style="width:25%;">ชื่อผู้ใช้งาน</th>
@@ -136,10 +136,10 @@ $result = $member->Select_all_member();
                             <th style="width:20%;">แก้ไข/ลบ</th>
                         </tr>
 
-
+                        <?php $no = 1; ?>
                         <?php while ($num = mysqli_fetch_array($result)) :
                             echo ("<tr>
-                                    <th>" . 1 . "</th>
+                                    <th>" . $no . "</th>
                                     <td id = \"username\">" . $num["r_username"] . "</td>
                                     <td id = \"name\">" . $num["r_name"] . "</td>
                                     <td id = \"phone\">" . $num["r_phone"] . "</td>
@@ -149,6 +149,7 @@ $result = $member->Select_all_member();
                                         <a href=\"form_delete.php?id=" . $num["id"] . "\"><i class=\"fas fa-trash\"></i></a>
                                     </td>
                                 </tr>");
+                            $no++;
                         endwhile ?>
 
                     </table>
