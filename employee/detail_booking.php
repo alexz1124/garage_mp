@@ -4,9 +4,6 @@ include_once('../server.php');
 include_once('../classes/Member.php');
 
 $conn = new DB_con();
-$member = new Member($conn->dbcon);
-$ss = "alex";
-$result = $member->Select_member();
 
 // while($num = mysqli_fetch_array($result)) {
 //     echo $num['r_name']; 
