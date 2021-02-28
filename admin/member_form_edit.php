@@ -8,17 +8,30 @@ $member = new Member($conn->dbcon);
 
 $__id = $_GET['id'];
 
-
 $result = $member->Select_member($__id);
 $num = mysqli_fetch_array($result);
+$status = $num['r_status'];
 
-if (isset($_POST['_DELETE'])) {
-    $result = $member->Delete_member($__id);
+if (isset($_POST['_EDIT'])) {
+
+    $username = $_POST['user'];
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $re_password = $_POST['re-password'];
+    $phone = $_POST['phone'];
+    $status = $_POST['status'];
+
+    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone, $status);
     if ($result) {
         header('Location: manage_user.php');
         die();
     }
 }
+// while($num = mysqli_fetch_array($result)) {
+//     echo $num['r_name']; 
+//     echo '<br>';
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +102,7 @@ if (isset($_POST['_DELETE'])) {
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.php">
+                <a class="navbar-brand" href="../index.php">
                     <h2>Blog <em> Website</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,31 +139,46 @@ if (isset($_POST['_DELETE'])) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
+                        <h2>แก้ไข<em>ผู้ใช้งาน</em></h2>
                     </div>
 
                     <div class="form-bottom">
-                        <form name="formdelete" action="" method="post">
+                        <form name="formedit" action="" method="post">
+
                             <div class="form-group">
                                 <label for="status">สถานะผู้ใช้งาน</label>
-                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
-                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                <select name="status" class="custom-select">
+                                    <option selected value="<?php echo $num['r_status']; ?>">สถานะผู้ใช้งาน</option>
+                                    <option value="Owner">Owner</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="User">User</option>
+                                </select>
                             </div>
+
                             <div class="form-group">
-                                <label for="username">ชื่อผู้ใช้งาน</label>
-                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
+                                <label for="user">ชื่อผู้ใช้งาน</label>
+                                <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="name">ชื่อ</label>
-                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
+                                <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">รหัสผ่าน</label>
+                                <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="re-password">ยืนยันรหัสผ่าน</label>
+                                <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
                             </div>
                             <div class="form-group">
                                 <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
+                                <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
+                                <button type="submit" name="_EDIT" class="btn btn-success">ยืนยัน</button>
                             </div>
                         </form>
                     </div>
@@ -220,8 +248,8 @@ if (isset($_POST['_DELETE'])) {
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function alert() {
+        alert(55);
     }
 </script>
 

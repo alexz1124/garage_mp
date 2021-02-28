@@ -1,8 +1,24 @@
 <?php
 session_start();
-// if(isset($_SESSION['permisstion'])){
-//   $_SESSION['permisstion'] = "";
-// }
+include_once('../server.php');
+include_once('../classes/Member.php');
+
+$conn = new DB_con();
+$member = new Member($conn->dbcon);
+
+$__id = $_GET['id'];
+
+
+$result = $member->Select_member($__id);
+$num = mysqli_fetch_array($result);
+
+if (isset($_POST['_DELETE'])) {
+    $result = $member->Delete_member($__id);
+    if ($result) {
+        header('Location: manage_user.php');
+        die();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +36,7 @@ session_start();
 
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
@@ -90,8 +107,8 @@ session_start();
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_user.php\">จัดการผู้ใช้งาน</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
@@ -107,7 +124,40 @@ session_start();
     <div class="team" style="margin: 0">
         <div class="container">
             <div class="row">
-                        
+                <div class="col-md-12">
+                    <div class="section-heading">
+                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form name="formdelete" action="" method="post">
+                            <div class="form-group">
+                                <label for="status">สถานะผู้ใช้งาน</label>
+                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
+                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                            </div>
+                            <div class="form-group">
+                                <label for="username">ชื่อผู้ใช้งาน</label>
+                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="name">ชื่อ</label>
+                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">หมายเลขโทรศัพท์</label>
+                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+
             </div>
         </div>
     </div>
@@ -117,13 +167,14 @@ session_start();
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Copyright © 2020 MP GARAGE
-                        - CREATE by: MP GARAGE
+                        Copyright © 2020 Company Name
+                        - Template by: <a href="https://www.phpjabbers.com/">PHPJabbers.com</a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Bootstrap core JavaScript -->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -145,6 +196,33 @@ session_start();
         }
     </script>
 
+    <script>
+        function myFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+
 </body>
+
+<script>
+    function alert(id) {
+        console.log(id);
+    }
+</script>
 
 </html>

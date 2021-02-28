@@ -5,13 +5,33 @@ include_once('../classes/Member.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
-$ss = "alex";
-$result = $member->Select_all_member();
 
+$__id = $_GET['id'];
+
+$result = $member->Select_member($__id);
+$num = mysqli_fetch_array($result);
+$status = $num['r_status'];
+
+if (isset($_POST['_EDIT'])) {
+
+    $username = $_POST['user'];
+    $name = $_POST['name'];
+    $password = $_POST['password'];
+    $re_password = $_POST['re-password'];
+    $phone = $_POST['phone'];
+    $status = $_POST['status'];
+
+    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone, $status);
+    if ($result) {
+        header('Location: manage_user.php');
+        die();
+    }
+}
 // while($num = mysqli_fetch_array($result)) {
 //     echo $num['r_name']; 
 //     echo '<br>';
 // }
+
 ?>
 
 <!DOCTYPE html>
@@ -119,41 +139,52 @@ $result = $member->Select_all_member();
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>แก้ไข<em>ผู้ใช้งาน</em></h2>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form name="formedit" action="" method="post">
+
+                            <div class="form-group">
+                                <label for="status">สถานะผู้ใช้งาน</label>
+                                <select name="status" class="custom-select">
+                                    <option selected value="<?php echo $num['r_status']; ?>">สถานะผู้ใช้งาน</option>
+                                    <option value="Owner">Owner</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Employee">Employee</option>
+                                    <option value="User">User</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="user">ชื่อผู้ใช้งาน</label>
+                                <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">ชื่อ</label>
+                                <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">รหัสผ่าน</label>
+                                <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
+                            </div>
+                            <div class="form-group">
+                                <label for="re-password">ยืนยันรหัสผ่าน</label>
+                                <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">หมายเลขโทรศัพท์</label>
+                                <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" name="_EDIT" class="btn btn-success">ยืนยัน</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
-                    <table id="myTable" class="table">
-                        <tr class="header">
-                            <th style="width:3%;">#</th>
-                            <th style="width:25%;">ชื่อผู้ใช้งาน</th>
-                            <th style="width:25%;">ชื่อ</th>
-                            <th style="width:20%;">เบอร์โทรศัพท์</th>
-                            <th style="width:10%;">สถานะผู้ใช้งาน</th>
-                            <th style="width:20%;">แก้ไข/ลบ</th>
-                        </tr>
 
-                        <?php $no = 1; ?>
-                        <?php while ($num = mysqli_fetch_array($result)) :
-                            echo ("<tr>
-                                    <th>" . $no . "</th>
-                                    <td id = \"username\">" . $num["r_username"] . "</td>
-                                    <td id = \"name\">" . $num["r_name"] . "</td>
-                                    <td id = \"phone\">" . $num["r_phone"] . "</td>
-                                    <td id = \"status\">" . $num["r_status"] . "</td>
-                                    
-                                    <td><a href=\"member_form_edit.php?id=" . $num["id"] . "\"><i class=\"fas fa-edit\"></i></a> /
-                                        <a href=\"member_form_delete.php?id=" . $num["id"] . "\"><i class=\"fas fa-trash\"></i></a>
-                                    </td>
-                                </tr>");
-                            $no++;
-                        endwhile ?>
-
-                    </table>
-                </form>
 
             </div>
         </div>
@@ -217,8 +248,8 @@ $result = $member->Select_all_member();
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function alert() {
+        alert(55);
     }
 </script>
 
