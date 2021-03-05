@@ -1,12 +1,13 @@
 <?php
 session_start();
 include_once('../server.php');
+include_once('../classes/Packages.php');
 
-
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
+$conn = new DB_con();
+$package = new Packages($conn->dbcon);
+$result_s = $package->Select_package_size("S");
+$result_m = $package->Select_package_size("M");
+$result_l = $package->Select_package_size("L");
 ?>
 
 <!DOCTYPE html>
@@ -123,6 +124,74 @@ include_once('../server.php');
                 </div>
 
                 <!-- content -->
+                <div class="box">
+                    <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #f5fa70;">S</span></h2>
+                </div>
+                <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                <tr class="header" style="background-color: #f5fa70;">
+                        <th style="width:3%;">#</th>
+                        <th style="width:25%;">แพ็คเกจ</th>
+                        <th style="width:25%;">ขนาด</th>
+                        <th style="width:20%;">ราคา</th>
+                    </tr>
+
+                    <?php $no = 1; ?>
+                    <?php while ($num = mysqli_fetch_array($result_s)) :
+                        echo ("<tr>
+                                    <th>" . $no . "</th>
+                                    <td id = \"name\">" . $num["P_name"] . "</td>
+                                    <td id = \"size\">" . $num["P_size"] . "</td>
+                                    <td id = \"price\">" . $num["P_price"] . "</td>
+                                </tr>");
+                        $no++;
+                    endwhile ?>
+                </table>
+                <div class="box">
+                    <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #a9fa70;">M</span></h2>
+                </div>
+                <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                <tr class="header" style="background-color: #a9fa70;">
+                        <th style="width:3%;">#</th>
+                        <th style="width:25%;">แพ็คเกจ</th>
+                        <th style="width:25%;">ขนาด</th>
+                        <th style="width:20%;">ราคา</th>
+                    </tr>
+
+                    <?php $no = 1; ?>
+                    <?php while ($num = mysqli_fetch_array($result_m)) :
+                        echo ("<tr>
+                                    <th>" . $no . "</th>
+                                    <td id = \"name\">" . $num["P_name"] . "</td>
+                                    <td id = \"size\">" . $num["P_size"] . "</td>
+                                    <td id = \"price\">" . $num["P_price"] . "</td>
+                                </tr>");
+                        $no++;
+                    endwhile ?>
+                </table>
+                <div class="box">
+                    <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #a2fcdb;">L</span></h2>
+                </div>
+                <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #a2fcdb;">
+                        <th style="width:3%;">#</th>
+                        <th style="width:25%;">แพ็คเกจ</th>
+                        <th style="width:25%;">ขนาด</th>
+                        <th style="width:20%;">ราคา</th>
+                    </tr>
+
+                    <?php $no = 1; ?>
+                    <?php while ($num = mysqli_fetch_array($result_l)) :
+                        echo ("<tr>
+                                    <th>" . $no . "</th>
+                                    <td id = \"name\">" . $num["P_name"] . "</td>
+                                    <td id = \"size\">" . $num["P_size"] . "</td>
+                                    <td id = \"price\">" . $num["P_price"] . "</td>
+                                </tr>");
+                        $no++;
+                    endwhile ?>
+                </table>
+
+                <!--end content -->
 
             </div>
         </div>

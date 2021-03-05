@@ -1,11 +1,11 @@
 <?php
-class Member
+class Packages
 {
     private $db;
-    public $M_id,
-        $M_name,
-        $M_phone,
-        $M_permission;
+    public $P_id,
+        $P_name,
+        $P_price,
+        $P_size;
 
     function __construct($conn)
     {
@@ -13,30 +13,47 @@ class Member
         // $this->Select_member();
     }
 
-    public function Select_all_member()
+    public function Add_package($name, $price, $size)
     {
-        $members = mysqli_query($this->db, "SELECT * FROM register");
-        return $members;
+        $this->P_name = $name;
+        $this->P_price = $price;
+        $this->P_size = $size;
+
+        $sql = mysqli_query($this->db, "INSERT INTO packages (P_name,P_price,P_size) 
+        VALUES ('$this->P_name','$this->P_price','$this->P_size')");
+        return $sql;
     }
 
-    public function Select_member($id)
+    public function Select_all_packages()
     {
-        $member = mysqli_query($this->db, "SELECT `r_username`, `r_name`, `r_phone`, `r_status` FROM `register` WHERE `id`= $id");
-        return $member;
+        $packages = mysqli_query($this->db, "SELECT * FROM packages");
+        return $packages;
     }
 
-    public function Update_member($__id, $username, $name, $password, $re_password, $phone, $permisstion)
+    public function Select_package($id)
     {
-        echo $__id, $username, $name, $password, $re_password, $phone, $permisstion;
+        $package = mysqli_query($this->db, "SELECT `P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_id`= $id");
 
-        $sql = "UPDATE `register` SET `r_username`='$username',`r_name`='$name',`r_phone`='$phone',`r_status`='$permisstion' WHERE id = $__id";
+        return $package;
+    }
+
+    public function Select_package_size($size)
+    {
+        $package = mysqli_query($this->db, "SELECT `P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_size`= '$size'");
+        // var_dump($package);
+        return $package;
+    }
+
+    public function Update_package($__id,$name, $price, $size)
+    {
+        $sql = "UPDATE `packages` SET `P_name`='$name',`P_price`='$price',`P_size`='$size' WHERE P_id = $__id";
         $result = mysqli_query($this->db, $sql);
         return $result;
     }
 
-    function Delete_member($__id)
+    function Delete_package($__id)
     {
-        $sql = "DELETE FROM `register` WHERE id = '$__id'";
+        $sql = "DELETE FROM `packages` WHERE id = '$__id'";
         $result = mysqli_query($this->db, $sql);
         return $result;
     }

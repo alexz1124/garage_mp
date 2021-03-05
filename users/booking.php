@@ -9,6 +9,10 @@ $conn = new DB_con();
 //     echo $num['r_name']; 
 //     echo '<br>';
 // }
+
+if (isset($_POST['date'])) {
+    echo 55;
+}
 ?>
 
 <!DOCTYPE html>
@@ -122,6 +126,25 @@ $conn = new DB_con();
                 </div>
 
                 <!-- content -->
+                <div class="box" style="margin-bottom: 10px;">
+                    <input type="date" id="date" onchange="call(6)" />
+                    <p id="ss"></p>
+                </div>
+
+                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
+                    <table id="myTable" class="table">
+                        <tr class="header">
+                            <th style="width:10%;">เวลา</th>
+                            <th style="width:28%;">ยีห้อ / รุ่น / สี</th>
+                            <th style="width:15%;">ทะเบียน</th>
+                            <th style="width:20%;">ชื่อลูกค้า</th>
+                            <th style="width:13%;">สถานะ</th>
+                            <th style="width:14%;">จอง</th>
+                        </tr>
+                        <?php include 'booking_table.php'; ?>
+                    </table>
+                </form>
+
 
             </div>
         </div>
@@ -185,8 +208,24 @@ $conn = new DB_con();
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function call(id) {
+        var x = document.getElementById("date").value;
+        console.log(x);
+        document.getElementById("ss").innerHTML = "You selected: " + x;
+
+        var date = x;
+        $.ajax({
+            type: "post",
+            url: "server.php",
+            data: {
+                'date': x
+            },
+            cache: false,
+            success: function(html) {
+                alert('Data Send');
+                $('#msg').html(html);
+            }
+        });
     }
 </script>
 

@@ -4,8 +4,21 @@ include_once('../server.php');
 include_once('../classes/Packages.php');
 
 $conn = new DB_con();
-$member = new Packages($conn->dbcon);
-$result = $member->Select_all_packages();
+$package = new Packages($conn->dbcon);
+
+
+if (isset($_POST['_ADD'])) {
+
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $size = $_POST['size'];
+
+    $result = $package->Add_package($name, $price, $size);
+    if ($result) {
+        header('Location: manage_package.php');
+        die();
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +37,6 @@ $result = $member->Select_all_packages();
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
-
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
@@ -97,7 +109,7 @@ $result = $member->Select_all_packages();
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการแพ็คเกจ</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_user.php\">จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -112,49 +124,43 @@ $result = $member->Select_all_packages();
     <div class="team" style="margin: 0">
         <div class="container">
             <div class="row">
-
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>จัดการ<em>แพ็คเกจ</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>เพิ่ม<em>แพ็คเกจ</em></h2>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form name="formadd" action="" method="post">
+
+                            <div class="form-group">
+                                <label for="name">ชื่อ</label>
+                                <input type="text" placeholder="ชื่อ..." class="form-username form-control" name="name" id="name">
+                            </div>
+                            
+                            
+                            <div class="form-group">
+                                <label for="status">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="price">ราคา</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="price" id="price">
+                            </div>
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" name="_ADD" class="btn btn-success">ยืนยัน</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
 
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
-                <div class="box">
-                    <a href="package_form_add.php?id=" class="float-right btn btn-primary" style="margin-bottom: 10px;">เพิ่มแพ็คเกจ</a>
-                </div>
-
-                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
-                    <table id="myTable" class="table">
-                        <tr class="header">
-                            <th style="width:3%;">#</th>
-                            <th style="width:25%;">แพ็คเกจ</th>
-                            <th style="width:25%;">ขนาด</th>
-                            <th style="width:20%;">ราคา</th>
-
-                            <th style="width:20%;">แก้ไข/ลบ</th>
-                        </tr>
-
-                        <?php $no = 1; ?>
-                        <?php while ($num = mysqli_fetch_array($result)) :
-                            echo ("<tr>
-                                    <th>" . $no . "</th>
-                                    <td id = \"name\">" . $num["P_name"] . "</td>
-                                    <td id = \"size\">" . $num["P_size"] . "</td>
-                                    <td id = \"price\">" . $num["P_price"] . "</td>
-                                    
-                                    <td><a href=\"package_form_edit.php?id=" . $num["P_id"] . "\"><i class=\"fas fa-edit\"></i></a> /
-                                        <a href=\"package_form_delete.php?id=" . $num["P_id"] . "\"><i class=\"fas fa-trash\"></i></a>
-                                    </td>
-                                </tr>");
-                            $no++;
-                        endwhile ?>
-
-                    </table>
-                </form>
             </div>
         </div>
     </div>
@@ -164,13 +170,14 @@ $result = $member->Select_all_packages();
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Copyright © 2020 MP GARAGE
-                        - CREATE by: MP GARAGE
+                        Copyright © 2020 Company Name
+                        - Template by: <a href="https://www.phpjabbers.com/">PHPJabbers.com</a>
                     </p>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- Bootstrap core JavaScript -->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -214,5 +221,11 @@ $result = $member->Select_all_packages();
     </script>
 
 </body>
+
+<script>
+    function alert() {
+        alert(55);
+    }
+</script>
 
 </html>

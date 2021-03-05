@@ -1,37 +1,29 @@
 <?php
 session_start();
 include_once('../server.php');
-include_once('../classes/Member.php');
+include_once('../classes/Packages.php');
 
 $conn = new DB_con();
-$member = new Member($conn->dbcon);
+$package = new Packages($conn->dbcon);
 
 $__id = $_GET['id'];
 
-$result = $member->Select_member($__id);
-$num = mysqli_fetch_array($result);
-$status = $num['r_status'];
+
+$select_package = $package->Select_package($__id);
+$num = mysqli_fetch_array($select_package);
 
 if (isset($_POST['_EDIT'])) {
 
-    $username = $_POST['user'];
     $name = $_POST['name'];
-    $password = $_POST['password'];
-    $re_password = $_POST['re-password'];
-    $phone = $_POST['phone'];
-    $status = $_POST['status'];
+    $price = $_POST['price'];
+    $size = $_POST['size'];
 
-    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone, $status);
+    $result = $package->Update_package($__id, $name, $price, $size);
     if ($result) {
-        header('Location: manage_user.php');
+        header('Location: manage_package.php');
         die();
     }
 }
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
-
 ?>
 
 <!DOCTYPE html>
@@ -122,7 +114,7 @@ if (isset($_POST['_EDIT'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -146,36 +138,25 @@ if (isset($_POST['_EDIT'])) {
                         <form name="formedit" action="" method="post">
 
                             <div class="form-group">
-                                <label for="status">สถานะผู้ใช้งาน</label>
-                                <select name="status" class="custom-select">
-                                    <option selected value="<?php echo $num['r_status']; ?>">สถานะผู้ใช้งาน</option>
-                                    <option value="Owner">Owner</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Employee">Employee</option>
-                                    <option value="User">User</option>
+                                <label for="name">ชื่อ</label>
+                                <input type="text" placeholder="ชื่อ..." class="form-username form-control" name="name" id="name" value="<?php echo $num['P_name']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="status">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="<?php echo $num['P_size']; ?>">ขนาด</option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="user">ชื่อผู้ใช้งาน</label>
-                                <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
+                                <label for="price">ราคา</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="price" id="price" value="<?php echo $num['P_price']; ?>">
                             </div>
-                            <div class="form-group">
-                                <label for="name">ชื่อ</label>
-                                <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">รหัสผ่าน</label>
-                                <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
-                            </div>
-                            <div class="form-group">
-                                <label for="re-password">ยืนยันรหัสผ่าน</label>
-                                <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
-                            </div>
+
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
                                 <button type="submit" name="_EDIT" class="btn btn-success">ยืนยัน</button>

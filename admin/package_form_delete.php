@@ -1,21 +1,20 @@
 <?php
 session_start();
 include_once('../server.php');
-include_once('../classes/Member.php');
+include_once('../classes/Packages.php');
 
 $conn = new DB_con();
-$member = new Member($conn->dbcon);
+$package = new Packages($conn->dbcon);
 
 $__id = $_GET['id'];
 
-
-$result = $member->Select_member($__id);
+$result = $package->Select_package($__id);
 $num = mysqli_fetch_array($result);
 
 if (isset($_POST['_DELETE'])) {
-    $result = $member->Delete_member($__id);
+    $result = $member->Delete_package($__id);
     if ($result) {
-        header('Location: manage_user.php');
+        header('Location: manage_packages.php');
         die();
     }
 }
@@ -109,7 +108,7 @@ if (isset($_POST['_DELETE'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -126,31 +125,28 @@ if (isset($_POST['_DELETE'])) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
+                        <h2>ลบ<em>แพ็คเกจ</em></h2>
                     </div>
 
                     <div class="form-bottom">
                         <form name="formdelete" action="" method="post">
-                            <div class="form-group">
-                                <label for="status">สถานะผู้ใช้งาน</label>
-                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
-                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                            </div>
-                            <div class="form-group">
-                                <label for="username">ชื่อผู้ใช้งาน</label>
-                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
-                            </div>
+
                             <div class="form-group">
                                 <label for="name">ชื่อ</label>
-                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
+                                <input type="text" name="name"  class="form-username form-control" id="name" value="<?php echo $num['P_name']; ?>" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
+                                <label for="size">ขนาด</label>
+                                <input type="text" name="size" class="form-username form-control" id="size" value="<?php echo $num['P_size']; ?>" disabled>
                             </div>
+                            <div class="form-group">
+                                <label for="price">ราคา</label>
+                                <input type="text" name="price" class="form-username form-control" id="price" value="<?php echo $num['P_price']; ?>" disabled>
+                            </div>
+
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
+                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบแพ็คเกจ</button>
                             </div>
                         </form>
                     </div>

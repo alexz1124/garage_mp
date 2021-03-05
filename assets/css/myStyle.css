@@ -62,7 +62,16 @@ body.modal-open {
 body {
   overflow: auto;
 }
-label {
 
+label {
   font-size: .8rem;
+}
+
+.box{
+  width: 100%;
+}
+
+.size-label{
+  margin-bottom: 10px;
+  color: rgb(168, 158, 158);
 }
