@@ -25,6 +25,12 @@ class Member
         return $member;
     }
 
+    public function Select_member_user()
+    {
+        $users = mysqli_query($this->db, "SELECT `id`,`r_name` FROM `register` WHERE `r_status`= \"User\"");
+        return $users;
+    }
+
     public function Update_member($__id, $username, $name, $password, $re_password, $phone, $permisstion)
     {
         $sql = "UPDATE `register` SET `r_username`='$username',`r_name`='$name',`r_phone`='$phone',`r_status`='$permisstion' WHERE id = $__id";

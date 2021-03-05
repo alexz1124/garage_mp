@@ -2,13 +2,36 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
+include_once('../classes/Cartype.php');
 
 $conn = new DB_con();
+$member = new Member($conn->dbcon);
+$register_car = new Cartype($conn->dbcon);
+$result = $member->Select_member_user();
 
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
+
+if (isset($_POST['_ADD_CAR'])) {
+
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $color = $_POST['color'];
+    $license = $_POST['license'];
+    $size = $_POST['size'];
+    $owner = $_POST['owner'];
+
+    // echo $brand, $model, $color, $license, $size,$owner;
+
+
+
+    $result = $register_car->Register_Car($brand, $model, $color, $license, $size, $owner);
+    if ($result) {
+        echo "<script>
+        alert(\"ลงทะเบียนรถเรียบร้อย\");
+        window.location.href = '../index.php';
+        </script>";
+
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -97,8 +120,8 @@ $conn = new DB_con();
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Employee') {
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>ข้อมูลการจองคิว</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">ลงทะเบียนรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"detail_booking.php\">ข้อมูลการจองคิว</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>ลงทะเบียนรถ</a></li>");
                             }
                         }
                         ?>
@@ -115,12 +138,65 @@ $conn = new DB_con();
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>ข้อมูล<em>การจองคิว</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>ลงทะเบียน<em>รถ</em></h2>
+                    </div>
+
+                    <div class="form-bottom">
+                        <form name="formadd" action="" method="post">
+
+                            <div class="form-group">
+                                <label for="brand">ยี่ห้อ</label>
+                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model">รุ่น</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="model" id="model">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color">สี</label>
+                                <input type="text" placeholder="สี..." class="form-username form-control" name="color" id="color">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="license">ทะเบียน</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="size">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="owner">เจ้าของรถ</label>
+                                <select name="owner" class="custom-select">
+                                    <option selected>กรุณาเลือกเจ้าของรถ</option>
+                                    <?php
+                                    while ($num = mysqli_fetch_array($result)) {
+                                        //echo $num['r_name'];
+                                        // echo("<option value=\"" . ${$num['r_name']} ."\">M</option>");
+                                        echo "<option value=\"" . $num['id'] . "\">" . $num['r_name'] . "</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" name="_ADD_CAR" class="btn btn-success">ยืนยัน</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
-                <!-- content -->
+
 
             </div>
         </div>
@@ -185,7 +261,7 @@ $conn = new DB_con();
 
 <script>
     function alert(id) {
-        console.log(id);
+        console.log("เรียบร้อย");
     }
 </script>
 
