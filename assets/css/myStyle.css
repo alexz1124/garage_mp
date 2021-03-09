@@ -75,3 +75,7 @@ label {
   margin-bottom: 10px;
   color: rgb(168, 158, 158);
 }
+
+th, td{
+  color: black;
+}

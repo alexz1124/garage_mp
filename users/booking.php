@@ -2,17 +2,10 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
+include_once('../classes/Booking.php');
 
 $conn = new DB_con();
 
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
-
-if (isset($_POST['date'])) {
-    echo 55;
-}
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +33,7 @@ if (isset($_POST['date'])) {
 
 </head>
 
-<body>
+<body onload="intit()">
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -126,26 +119,23 @@ if (isset($_POST['date'])) {
                 </div>
 
                 <!-- content -->
-                <div class="box" style="margin-bottom: 10px;">
-                    <input type="date" id="date" onchange="call(6)" />
-                    <p id="ss"></p>
+                <div class="box" style="margin-bottom: 1.6rem;">
+                    <label for="date">เลือกวันที่จะจอง:</label>
+                    <input type="date" id="date" onchange="getTable()" />
                 </div>
 
-                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
+                <div class="box" id="table">
                     <table id="myTable" class="table">
                         <tr class="header">
                             <th style="width:10%;">เวลา</th>
-                            <th style="width:28%;">ยีห้อ / รุ่น / สี</th>
-                            <th style="width:15%;">ทะเบียน</th>
+                            <th style="width:33%;">ยีห้อ / รุ่น / สี</th>
+                            <th style="width:12%;">ทะเบียน</th>
                             <th style="width:20%;">ชื่อลูกค้า</th>
-                            <th style="width:13%;">สถานะ</th>
+                            <th style="width:11%;">สถานะ</th>
                             <th style="width:14%;">จอง</th>
                         </tr>
-                        <?php include 'booking_table.php'; ?>
                     </table>
-                </form>
-
-
+                </div>
             </div>
         </div>
     </div>
@@ -208,24 +198,42 @@ if (isset($_POST['date'])) {
 </body>
 
 <script>
-    function call(id) {
-        var x = document.getElementById("date").value;
-        console.log(x);
-        document.getElementById("ss").innerHTML = "You selected: " + x;
+</script>
+<script>
+    function intit() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
 
-        var date = x;
-        $.ajax({
-            type: "post",
-            url: "server.php",
-            data: {
-                'date': x
-            },
-            cache: false,
-            success: function(html) {
-                alert('Data Send');
-                $('#msg').html(html);
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('date').valueAsDate = new Date();
+        document.getElementById("date").setAttribute("min", today);
+        console.log(new Date())
+        getTable();
+    }
+
+    function getTable() {
+        var str = document.getElementById("date").value;
+        var xhttp;
+        if (str.length == 0) {
+            document.getElementById("table").innerHTML = "";
+            return;
+        }
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("table").innerHTML = this.responseText;
             }
-        });
+        };
+        xhttp.open("GET", "booking_table.php?q=" + str, true);
+        xhttp.send();
     }
 </script>
 

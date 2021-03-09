@@ -29,7 +29,6 @@ if (isset($_POST['_ADD_CAR'])) {
         alert(\"ลงทะเบียนรถเรียบร้อย\");
         window.location.href = '../index.php';
         </script>";
-
     }
 }
 ?>
@@ -195,9 +194,6 @@ if (isset($_POST['_ADD_CAR'])) {
                         </form>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>

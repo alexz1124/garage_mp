@@ -39,7 +39,7 @@ class Packages
 
     public function Select_package_size($size)
     {
-        $package = mysqli_query($this->db, "SELECT `P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_size`= '$size'");
+        $package = mysqli_query($this->db, "SELECT `P_id`,`P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_size`= '$size'");
         // var_dump($package);
         return $package;
     }

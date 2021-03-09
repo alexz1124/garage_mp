@@ -46,7 +46,7 @@ class Cartype
 
 
 
-    public function Register_Car($brand, $model, $color, $license, $size,$id)
+    public function Register_Car($brand, $model, $color, $license, $size, $id)
     {
 
         $this->C_brand = $brand;
@@ -55,10 +55,22 @@ class Cartype
         $this->C_license = $license;
         $this->C_size = $size;
         $this->M_id = $id;
-        
+
 
         $reg = mysqli_query($this->db, "INSERT INTO cartype (`C_brand`, `C_model`, `C_size`, `C_color`, `C_license`, `M_id`) 
         VALUES ('$this->C_brand','$this->C_model','$this->C_size','$this->C_color','$this->C_license','$this->M_id')");
         return $reg;
+    }
+
+    public function Select_car($id)
+    {
+        $car = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE `C_id`= $id");
+        return $car;
+    }
+
+    public function Select_car_By_Mid($M_id)
+    {
+        $car = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE `M_id`= $M_id");
+        return $car;
     }
 }

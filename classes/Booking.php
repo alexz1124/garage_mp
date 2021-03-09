@@ -7,40 +7,32 @@ class Booking
         $B_date,
         $B_time,
         $B_status,
-        $P_name,
-        $C_type;
-       
+        $P_id,
+        $C_id;
+
     function __construct($conn)
     {
         $this->db = $conn;
-        // $this->Select_member();
     }
 
-    public function Select_all_Booking()
+    public function Bokking_queue($m_id, $date, $time, $c_id, $p_id, $status)
     {
-        $members = mysqli_query($this->db, "SELECT * FROM register");
-        return $members;
+        $this->M_id = $m_id;
+        $this->B_date = $date;
+        $this->B_time = $time;
+        $this->B_status = $status;
+        $this->P_id = $p_id;
+        $this->C_id = $c_id;
+
+        $reg = mysqli_query($this->db, "INSERT INTO booking (`M_id`, `B_date`, `B_time`, `B_status`, `P_id`, `C_id`) 
+        VALUES (' $this->M_id','$this->B_date','$this->B_time','$this->B_status','$this->P_id','$this->C_id')");
+        echo $reg;
+        return $reg;
     }
 
-    public function Select_member($id)
+    public function Select_Booking_by_date($date)
     {
-        $member = mysqli_query($this->db, "SELECT `r_username`, `r_name`, `r_phone`, `r_status` FROM `register` WHERE `id`= $id");
-        return $member;
-    }
-
-    public function Update_member($__id, $username, $name, $password, $re_password, $phone, $permisstion)
-    {
-        echo $__id, $username, $name, $password, $re_password, $phone, $permisstion;
-
-        $sql = "UPDATE `register` SET `r_username`='$username',`r_name`='$name',`r_phone`='$phone',`r_status`='$permisstion' WHERE id = $__id";
-        $result = mysqli_query($this->db, $sql);
-        return $result;
-    }
-
-    function Delete_member($__id)
-    {
-        $sql = "DELETE FROM `register` WHERE id = '$__id'";
-        $result = mysqli_query($this->db, $sql);
-        return $result;
+        $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE `B_date`= \"$date\" ORDER BY B_time ASC");
+        return $bookings;
     }
 }
