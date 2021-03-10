@@ -1,22 +1,34 @@
 <?php
 session_start();
 include_once('../server.php');
+include_once('../classes/Cartype.php');
 include_once('../classes/Packages.php');
+include_once('../classes/Booking.php');
 
 $conn = new DB_con();
-$package = new Packages($conn->dbcon);
+$_book = new Booking($conn->dbcon);
 
+$B_id = $_REQUEST["id"];
+$date = $_REQUEST['d'];
+$date_show = date_create($date);
+$time = $_REQUEST["t"];
+$detail = $_REQUEST["dt"];
+$package = $_REQUEST["pk"];
+$name = $_REQUEST["n"];
+$license = $_REQUEST["l"];
+$status = $_REQUEST["s"];
 
-if (isset($_POST['_ADD'])) {
+// echo ($B_id . "-" . $date . "-" . "-" . $time . "-" . $detail . "-" . $package . "-" . $name . "-" . $license);
 
-    $name = $_POST['name'];
-    $price = $_POST['price'];
-    $size = $_POST['size'];
+if (isset($_POST['_ADD_STATUS'])) {
 
-    $result = $package->Add_package($name, $price, $size);
+    $status = $_POST['status'];
+    $result = $_book->Booking_update($B_id, $status);
     if ($result) {
-        header('Location: manage_package.php');
-        die();
+        echo "<script>
+        alert(\"อัพเดทข้อมูลเรียบร้อย\");
+        window.location.href = '../employee/detail_booking.php';
+        </script>";
     }
 }
 ?>
@@ -106,10 +118,9 @@ if (isset($_POST['_ADD'])) {
 
                         <?php
                         if (isset($_SESSION['permisstion'])) {
-                            if ($_SESSION['permisstion'] == 'Admin') {
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_user.php\">จัดการผู้ใช้งาน</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                            if ($_SESSION['permisstion'] == 'Employee') {
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=\"detail_booking.php\">ข้อมูลการจองคิว</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">ลงทะเบียนรถ</a></li>");
                             }
                         }
                         ?>
@@ -122,45 +133,81 @@ if (isset($_POST['_ADD'])) {
     <!-- Page Content -->
 
     <div class="team" style="margin: 0">
-        <div class="container">
+        <div class="container" style="padding: 0 15%">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>เพิ่ม<em>แพ็คเกจ</em></h2>
+                        <h2>จองคิว</h2>
                     </div>
 
                     <div class="form-bottom">
                         <form name="formadd" action="" method="post">
 
                             <div class="form-group">
-                                <label for="name">ชื่อ</label>
-                                <input type="text" placeholder="ชื่อ..." class="form-username form-control" name="name" id="name">
-                            </div>
-                            
-                            
-                            <div class="form-group">
-                                <label for="status">ขนาด</label>
-                                <select name="size" class="custom-select">
-                                    <option selected value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                </select>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="date">วันที่จอง</label>
+                                        <input type="text" class="form-username form-control" name="date" id="date" value="<?php echo date_format($date_show, "d/m/Y"); ?>" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="time">เวลาที่จอง</label>
+                                        <input type="text" class="form-username form-control" name="time" id="time" value="<?php echo $time; ?>" disabled>
+                                    </div>
+
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="price">ราคา</label>
-                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="price" id="price">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="license">ทะเบียน</label>
+                                        <input type="text" class="form-username form-control" name="license" id="license" value="<?php echo $license; ?>" disabled>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <label for="detail">ยีห้อ / รุ่น / สี / ขนาด</label>
+                                        <input type="text" class="form-username form-control" name="detail" id="detail" value="<?php echo $detail; ?>" disabled>
+                                        <input type="text" name="car_id" id="car_id" hidden>
+                                    </div>
+
+                                </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="m_name">ชื่อลูกค้า</label>
+                                        <input type="text" class="form-username form-control" name="m_name" id="m_name" value="<?php echo $name; ?>" disabled>
+                                    </div>
+
+                                    <div class="col-md-8">
+                                        <label for="status">สถานะ</label>
+                                        <select name="status" id="status" class="custom-select" required>
+                                            <option selected value="<?php echo $status; ?>"><?php echo $status; ?></option>
+                                            <option value="รอดำเนินการ">รอดำเนินการ</option>
+                                            <option value="จอง">จอง</option>
+                                            <option value="สำเร็จ">สำเร็จ</option>
+                                            <option value="กำลังล้าง">กำลังล้าง</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="package">แพ็กเกจ</label>
+                                <input type="text" class="form-username form-control" name="package" id="package" value="<?php echo $package; ?>" disabled>
+                            </div>
+
+
+
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" name="_ADD" class="btn btn-success">ยืนยัน</button>
+                                <button type="submit" name="_ADD_STATUS" class="btn btn-success">ยืนยัน</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -221,11 +268,5 @@ if (isset($_POST['_ADD'])) {
     </script>
 
 </body>
-
-<script>
-    function alert() {
-        alert(55);
-    }
-</script>
 
 </html>

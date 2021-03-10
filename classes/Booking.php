@@ -15,7 +15,7 @@ class Booking
         $this->db = $conn;
     }
 
-    public function Bokking_queue($m_id, $date, $time, $c_id, $p_id, $status)
+    public function Booking_queue($m_id, $date, $time, $c_id, $p_id, $status)
     {
         $this->M_id = $m_id;
         $this->B_date = $date;
@@ -34,5 +34,18 @@ class Booking
     {
         $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE `B_date`= \"$date\" ORDER BY B_time ASC");
         return $bookings;
+    }
+
+    public function Select_Booking_by_status($status)
+    {
+        $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE `B_status`= \"$status\" ORDER BY B_status");
+        return $bookings;
+    }
+
+    public function Booking_update($B_id, $status)
+    {
+        $sql = "UPDATE `booking` SET `B_status`='$status' WHERE B_id = $B_id";
+        $result = mysqli_query($this->db, $sql);
+        return $result;
     }
 }

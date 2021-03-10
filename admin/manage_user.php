@@ -66,7 +66,7 @@ $result = $member->Select_all_member();
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             $s = $_SESSION['username'];
-                            echo ("<li><a href=\"../account/logout.php\">  $s  </a></li>");
+                            echo ("<li><a href=\"#\">  $s  </a></li>");
                             echo ("<li><a href=\"../account/logout.php\">ออกจากระบบ</a></li>");
                         } else {
                             echo ("<li><a href=\"../account/login.php\">เข้าสู่ระบบ</a></li>");

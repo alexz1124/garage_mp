@@ -30,11 +30,11 @@ if (isset($_POST['_ADD_BOOKING'])) {
 
     echo $M_id . ">" . $date . ">" . $time . ">" . $c_id . ">" .  $show_package;
 
-    $result = $_book->Bokking_queue($M_id, $date, $time, $c_id, $show_package, "รอดำเนินการ");
+    $result = $_book->Booking_queue($M_id, $date, $time, $c_id, $show_package, "รอดำเนินการ");
     if ($result) {
         echo "<script>
         alert(\"จองคิวเรียบร้อย\");
-        window.location.href = '../users/booking_table.php';
+        window.location.href = '../users/booking.php';
         </script>";
     }
 }
@@ -92,7 +92,7 @@ if (isset($_POST['_ADD_BOOKING'])) {
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             $s = $_SESSION['username'];
-                            echo ("<li><a href=\"../account/logout.php\">  $s  </a></li>");
+                            echo ("<li><a href=\"#\">  $s  </a></li>");
                             echo ("<li><a href=\"../account/logout.php\">ออกจากระบบ</a></li>");
                         } else {
                             echo ("<li><a href=\"../account/login.php\">เข้าสู่ระบบ</a></li>");

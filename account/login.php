@@ -17,9 +17,8 @@ if (isset($_POST['login'])) {
         $_SESSION['username'] = $num['r_username'];
         $_SESSION['permisstion'] = $num['r_status'];
         echo "<script>alert('Login Successful!');</script>";
-        // $x = $num['r_status'];
-        // echo $x;
-        echo "<script>window.location.href='../welcome.php'</script>";
+
+        echo "<script>window.location.href='../index.php'</script>";
     } else {
         echo "<script>alert('Something went wrong! Please try again.');</script>";
         echo "<script>window.location.href='login.php'</script>";

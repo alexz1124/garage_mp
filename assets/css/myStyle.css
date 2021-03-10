@@ -79,3 +79,8 @@ label {
 th, td{
   color: black;
 }
+
+.table tr td a:hover {
+  color: #785601!important;
+  text-decoration: underline!important;
+}

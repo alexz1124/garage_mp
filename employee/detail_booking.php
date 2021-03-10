@@ -1,12 +1,21 @@
 <?php
 session_start();
 include_once('../server.php');
+include_once('../classes/Booking.php');
 include_once('../classes/Member.php');
+include_once('../classes/CarType.php');
+include_once('../classes/Packages.php');
 
 $conn = new DB_con();
+$_booking = new Booking($conn->dbcon);
+$_member = new Member($conn->dbcon);
+$_car = new Cartype($conn->dbcon);
+$_package = new Packages($conn->dbcon);
 
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
+$select_by_status = $_booking->Select_Booking_by_status("รอดำเนินการ");
+
+// while ($num = mysqli_fetch_array($select_by_status)) {
+//     print_r($num);
 //     echo '<br>';
 // }
 ?>
@@ -36,7 +45,7 @@ $conn = new DB_con();
 
 </head>
 
-<body>
+<body onload="showTable()">
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -63,7 +72,7 @@ $conn = new DB_con();
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             $s = $_SESSION['username'];
-                            echo ("<li><a href=\"../account/logout.php\">  $s  </a></li>");
+                            echo ("<li><a href=\"#\">  $s  </a></li>");
                             echo ("<li><a href=\"../account/logout.php\">ออกจากระบบ</a></li>");
                         } else {
                             echo ("<li><a href=\"../account/login.php\">เข้าสู่ระบบ</a></li>");
@@ -121,7 +130,28 @@ $conn = new DB_con();
                 </div>
 
                 <!-- content -->
+                <div class="box" style="margin-bottom: 1.6rem;">
+                    <select name="selectStatus" id="selectStatus" class="custom-select mr-sm-2" onchange="showTable()" required>
+                        <option selected value="รอดำเนินการ">รอดำเนินการ</option>
+                        <option value="จอง">จอง</option>
+                        <option value="สำเร็จ">สำเร็จ</option>
+                        <option value="กำลังล้าง">กำลังล้าง</option>
+                    </select>
+                </div>
 
+                <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #706ca3;">
+                        <th style="width:2%;">#</th>
+                        <th style="width:15%;">วันที่</th>
+                        <th style="width:4%;">เวลา</th>
+                        <th style="width:21%;">ยีห้อ / รุ่น / สี</th>
+                        <th style="width:7%;">ทะเบียน</th>
+                        <th style="width:21%;">แพ็คเก็จ</th>
+                        <th style="width:15%;">ชื่อลูกค้า</th>
+                        <th style="width:12%;">สถานะ</th>
+                    </tr>
+
+                </table>
             </div>
         </div>
     </div>
@@ -184,8 +214,178 @@ $conn = new DB_con();
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function showTable() {
+        x = document.getElementById("selectStatus").value
+        console.log(x);
+
+        if (x == "รอดำเนินการ") {
+            document.getElementById("myTable").innerHTML = `
+            <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #706ca3;">
+                        <th style="width:2%;">#</th>
+                        <th style="width:15%;">วันที่</th>
+                        <th style="width:4%;">เวลา</th>
+                        <th style="width:21%;">ยีห้อ / รุ่น / สี</th>
+                        <th style="width:7%;">ทะเบียน</th>
+                        <th style="width:21%;">แพ็คเก็จ</th>
+                        <th style="width:15%;">ชื่อลูกค้า</th>
+                        <th style="width:12%;">สถานะ</th>
+                    </tr>
+            
+            <?php $no = 1;
+            $select_by_status = $_booking->Select_Booking_by_status("รอดำเนินการ");
+            while ($num = mysqli_fetch_array($select_by_status)) {
+                $members = $_member->Select_member($num['M_id']);
+                $name = mysqli_fetch_assoc($members);
+                $cars = $_car->Select_car($num['C_id']);
+                $car = mysqli_fetch_assoc($cars);
+                $packages = $_package->Select_package($num['P_id']);
+                $package = mysqli_fetch_assoc($packages);
+
+                echo ("<tr>
+                            <th>" . $no . "</th>
+                            <td id = \"date\">" . $num['B_date'] . "</td>
+                            <td id = \"time\">" . $num['B_time'] . "</td>
+                            <td id = \"car\" style=\"font-size: 14px;\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"package\" style=\"font-size: 14px;\">" . $package['P_name'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>
+                            <td id = \"status\"><a href=\"status_form.php?d=" . $num['B_date'] . "&l=" . $car['C_license'] . "&t=" . $num['B_time'] . "&dt=" . $car['C_brand']  . "/"
+                    . $car['C_model'] . "/" . $car['C_color'] . "&s=" . $num['B_status'] . "&pk=" . $package['P_name'] . "&n=" . $name['r_name'] .
+                    "&id=" . $num['B_id'] . "\" style=\"color: #dea300;\">" . $num['B_status'] . "</a></td>                   
+                                </tr>");
+                $no++;
+            }
+            ?>
+            </table>
+            `
+        } else if (x == "จอง") {
+            document.getElementById("myTable").innerHTML = `
+            <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #706ca3;">
+                        <th style="width:2%;">#</th>
+                        <th style="width:15%;">วันที่</th>
+                        <th style="width:4%;">เวลา</th>
+                        <th style="width:21%;">ยีห้อ / รุ่น / สี</th>
+                        <th style="width:7%;">ทะเบียน</th>
+                        <th style="width:21%;">แพ็คเก็จ</th>
+                        <th style="width:15%;">ชื่อลูกค้า</th>
+                        <th style="width:12%;">สถานะ</th>
+                    </tr>
+            
+            <?php $no = 1;
+            $select_by_status = $_booking->Select_Booking_by_status("จอง");
+            while ($num = mysqli_fetch_array($select_by_status)) {
+                $members = $_member->Select_member($num['M_id']);
+                $name = mysqli_fetch_assoc($members);
+                $cars = $_car->Select_car($num['C_id']);
+                $car = mysqli_fetch_assoc($cars);
+                $packages = $_package->Select_package($num['P_id']);
+                $package = mysqli_fetch_assoc($packages);
+
+                echo ("<tr>
+                            <th>" . $no . "</th>
+                            <td id = \"date\">" . $num['B_date'] . "</td>
+                            <td id = \"time\">" . $num['B_time'] . "</td>
+                            <td id = \"car\" style=\"font-size: 14px;\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"package\" style=\"font-size: 14px;\">" . $package['P_name'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>
+                            <td id = \"status\"><a href=\"status_form.php?d=" . $num['B_date'] . "&l=" . $car['C_license'] . "&t=" . $num['B_time'] . "&dt=" . $car['C_brand']  . "/"
+                    . $car['C_model'] . "/" . $car['C_color'] . "&s=" . $num['B_status'] . "&pk=" . $package['P_name'] . "&n=" . $name['r_name'] .
+                    "&id=" . $num['B_id'] . "\" style=\"color: red;\">" . $num['B_status'] . "</td>                   
+                    </tr>");
+                $no++;
+            }
+            ?>
+            </table>
+            `
+
+        } else if (x == "สำเร็จ") {
+            document.getElementById("myTable").innerHTML = `
+            <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #706ca3;">
+                        <th style="width:2%;">#</th>
+                        <th style="width:15%;">วันที่</th>
+                        <th style="width:4%;">เวลา</th>
+                        <th style="width:21%;">ยีห้อ / รุ่น / สี</th>
+                        <th style="width:7%;">ทะเบียน</th>
+                        <th style="width:21%;">แพ็คเก็จ</th>
+                        <th style="width:15%;">ชื่อลูกค้า</th>
+                        <th style="width:12%;">สถานะ</th>
+                    </tr>
+            
+            <?php $no = 1;
+            $select_by_status = $_booking->Select_Booking_by_status("สำเร็จ");
+            while ($num = mysqli_fetch_array($select_by_status)) {
+                $members = $_member->Select_member($num['M_id']);
+                $name = mysqli_fetch_assoc($members);
+                $cars = $_car->Select_car($num['C_id']);
+                $car = mysqli_fetch_assoc($cars);
+                $packages = $_package->Select_package($num['P_id']);
+                $package = mysqli_fetch_assoc($packages);
+
+                echo ("<tr>
+                            <th>" . $no . "</th>
+                            <td id = \"date\">" . $num['B_date'] . "</td>
+                            <td id = \"time\">" . $num['B_time'] . "</td>
+                            <td id = \"car\" style=\"font-size: 14px;\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"package\" style=\"font-size: 14px;\">" . $package['P_name'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>                   
+                            <td id = \"status\"><a href=\"status_form.php?d=" . $num['B_date'] . "&l=" . $car['C_license'] . "&t=" . $num['B_time'] . "&dt=" . $car['C_brand']  . "/"
+                    . $car['C_model'] . "/" . $car['C_color'] . "&s=" . $num['B_status'] . "&pk=" . $package['P_name'] . "&n=" . $name['r_name'] .
+                    "&id=" . $num['B_id'] . "\" style=\"color: #0d9e00;\">" . $num['B_status'] . "</td>                   
+                                </tr>");
+                $no++;
+            }
+            ?>
+            </table>
+            `
+
+        } else if (x == "กำลังล้าง") {
+            document.getElementById("myTable").innerHTML = `
+            <table id="myTable" class="table" style="margin-bottom: 5rem;">
+                    <tr class="header" style="background-color: #706ca3;">
+                        <th style="width:2%;">#</th>
+                        <th style="width:15%;">วันที่</th>
+                        <th style="width:4%;">เวลา</th>
+                        <th style="width:21%;">ยีห้อ / รุ่น / สี</th>
+                        <th style="width:7%;">ทะเบียน</th>
+                        <th style="width:21%;">แพ็คเก็จ</th>
+                        <th style="width:15%;">ชื่อลูกค้า</th>
+                        <th style="width:12%;">สถานะ</th>
+                    </tr>
+            
+            <?php $no = 1;
+            $select_by_status = $_booking->Select_Booking_by_status("กำลังล้าง");
+            while ($num = mysqli_fetch_array($select_by_status)) {
+                $members = $_member->Select_member($num['M_id']);
+                $name = mysqli_fetch_assoc($members);
+                $cars = $_car->Select_car($num['C_id']);
+                $car = mysqli_fetch_assoc($cars);
+                $packages = $_package->Select_package($num['P_id']);
+                $package = mysqli_fetch_assoc($packages);
+
+                echo ("<tr>
+                            <th>" . $no . "</th>
+                            <td id = \"date\">" . $num['B_date'] . "</td>
+                            <td id = \"time\">" . $num['B_time'] . "</td>
+                            <td id = \"car\" style=\"font-size: 14px;\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"package\" style=\"font-size: 14px;\">" . $package['P_name'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>    
+                            <td id = \"status\"><a href=\"status_form.php?d=" . $num['B_date'] . "&l=" . $car['C_license'] . "&t=" . $num['B_time'] . "&dt=" . $car['C_brand']  . "/"
+                    . $car['C_model'] . "/" . $car['C_color'] . "&s=" . $num['B_status'] . "&pk=" . $package['P_name'] . "&n=" . $name['r_name'] .
+                    "&id=" . $num['B_id'] . "\" style=\"color: #000080;\">" . $num['B_status'] . "</td>                   
+                                </tr>");
+                $no++;
+            }
+            ?>
+            </table>
+            `
+
+        }
     }
 </script>
 
