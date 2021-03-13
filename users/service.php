@@ -78,8 +78,8 @@ $result_l = $package->Select_package_size("L");
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="../index.php">
-                    <h2>MP <em> GARAGE</em></h2>
+                <a class="navbar-left" href="../index.php" style="margin-top: 0;">
+                    <img src="../assets/images/logo.png" width="160" height="60" class="d-inline-block align-top" alt="">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
