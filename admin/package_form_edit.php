@@ -70,7 +70,7 @@ if (isset($_POST['_EDIT'])) {
                 <div class="col-md-8 col-xs-12">
                     <ul class="left-info">
                         <li><a href="#"><i class="fa fa-envelope"></i>contact@company.com</a></li>
-                        <li><a href="#"><i class="fa fa-phone"></i>123-456-7890</a></li>
+                        <li><a href="#"><i class="fa fa-phone"></i>082-326-1716 (เอ็ม)</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -95,7 +95,7 @@ if (isset($_POST['_EDIT'])) {
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="../index.php">
-                    <h2>Blog <em> Website</em></h2>
+                    <h2>MP <em> GARAGE</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -176,8 +176,8 @@ if (isset($_POST['_EDIT'])) {
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Copyright © 2020 Company Name
-                        - Template by: <a href="https://www.phpjabbers.com/">PHPJabbers.com</a>
+                        Copyright © 2020 MP GARAGE Name
+                        - CREATE by: MP GARAGE
                     </p>
                 </div>
             </div>

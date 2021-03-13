@@ -2,23 +2,10 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
+include_once('../classes/Booking.php');
 
 $conn = new DB_con();
-$member = new Member($conn->dbcon);
 
-$__id = $_GET['id'];
-
-
-$result = $member->Select_member($__id);
-$num = mysqli_fetch_array($result);
-
-if (isset($_POST['_DELETE'])) {
-    $result = $member->Delete_member($__id);
-    if ($result) {
-        header('Location: manage_user.php');
-        die();
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +33,7 @@ if (isset($_POST['_DELETE'])) {
 
 </head>
 
-<body>
+<body onload="intit()">
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -106,10 +93,9 @@ if (isset($_POST['_DELETE'])) {
 
                         <?php
                         if (isset($_SESSION['permisstion'])) {
-                            if ($_SESSION['permisstion'] == 'Admin') {
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                            if ($_SESSION['permisstion'] == 'Owner') {
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"report_queue.php\">รายงานการจองคิว</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>รายงานรายได้</a></li>");
                             }
                         }
                         ?>
@@ -126,38 +112,28 @@ if (isset($_POST['_DELETE'])) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
-                    </div>
-
-                    <div class="form-bottom">
-                        <form name="formdelete" action="" method="post">
-                            <div class="form-group">
-                                <label for="status">สถานะผู้ใช้งาน</label>
-                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
-                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                            </div>
-                            <div class="form-group">
-                                <label for="username">ชื่อผู้ใช้งาน</label>
-                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="name">ชื่อ</label>
-                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
-                            </div>
-                            <div class="form-group">
-                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
-                            </div>
-                        </form>
+                        <h2>รายงาน<em>การจองคิว</em></h2>
+                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
                     </div>
                 </div>
 
+                <!-- content -->
+                <div class="box" style="margin-bottom: 1.6rem;">
+                    <label for="date">เลือกวันที่จะดูรายงาน:</label>
+                    <input type="date" id="date" onchange="getTable()" />
+                </div>
 
-
+                <div class="box" id="table">
+                    <table id="myTable" class="table">
+                        <tr class="header">
+                            <th style="width:10%;">ลำดับ</th>
+                            <th style="width:40%;">รายการ</th>
+                            <th style="width:15%;">ราคา</th>
+                            <th style="width:15%;">รวม</th>
+                            <th style="width:0.1%;"></th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -220,8 +196,42 @@ if (isset($_POST['_DELETE'])) {
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+</script>
+<script>
+    function intit() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('date').valueAsDate = new Date();
+        document.getElementById("date").setAttribute("min", today);
+        console.log(new Date())
+        getTable();
+    }
+
+    function getTable() {
+        var str = document.getElementById("date").value;
+        var xhttp;
+        if (str.length == 0) {
+            document.getElementById("table").innerHTML = "";
+            return;
+        }
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("table").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "report_table.php?q=" + str, true);
+        xhttp.send();
     }
 </script>
 

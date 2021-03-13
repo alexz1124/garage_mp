@@ -36,6 +36,24 @@ class Booking
         return $bookings;
     }
 
+    public function Select_Booking_by_date_and_status($date,$status)
+    {
+        $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE `B_date`= \"$date\" and B_status = \"$status\" ORDER BY B_time ASC");
+        return $bookings;
+    }
+
+    public function Select_Booking_by_month_and_status($month, $year)
+    {
+        $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE Month(B_date) = $month and Year(B_date) = $year and B_status = \"สำเร็จ\" ORDER BY B_time ASC");
+        return $bookings;
+    }
+
+    public function Select_Booking_by_year_and_status($year)
+    {
+        $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE Year(B_date) = $year and B_status = \"สำเร็จ\" ORDER BY B_time ASC");
+        return $bookings;
+    }
+
     public function Select_Booking_by_status($status)
     {
         $bookings = mysqli_query($this->db, "SELECT * FROM `booking` WHERE `B_status`= \"$status\" ORDER BY B_status");

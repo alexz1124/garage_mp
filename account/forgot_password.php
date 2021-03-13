@@ -1,15 +1,16 @@
-<?php
+<!-- <?php
 session_start();
 include_once('../server.php');
 
 $userdata = new DB_con();
+$register = new Register($userdata->dbcon);
 
 if (isset($_POST['login'])) {
     $uname = $_POST['username'];
     $password = md5($_POST['password']);
 
-    $result = $userdata->signin($uname, $password);
-    $num = mysqli_fetch_array($result);
+    //$result = $register->reg($uname, $password);
+    //$num = mysqli_fetch_array($result);
 
     if ($num > 0) {
         $_SESSION['id'] = $num['id'];
@@ -22,7 +23,7 @@ if (isset($_POST['login'])) {
     }
 }
 
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en">

@@ -16,11 +16,11 @@ if (isset($_POST['login'])) {
         $_SESSION['id'] = $num['id'];
         $_SESSION['username'] = $num['r_username'];
         $_SESSION['permisstion'] = $num['r_status'];
-        echo "<script>alert('Login Successful!');</script>";
+        // echo "<script>alert('Login Successful!');</script>";
 
         echo "<script>window.location.href='../index.php'</script>";
     } else {
-        echo "<script>alert('Something went wrong! Please try again.');</script>";
+        echo "<script>alert('ข้อมูลการเข้าสู่ระบบไม่ถูถต้อง');</script>";
         echo "<script>window.location.href='login.php'</script>";
     }
 }
@@ -44,19 +44,8 @@ if (isset($_POST['login'])) {
     <link rel="stylesheet" href="assets/css/form-elements.css">
     <link rel="stylesheet" href="assets/css/style.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
     <!-- Favicon and touch icons -->
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <!-- <link rel="shortcut icon" href="favicon.png"> -->
 
 </head>
 
@@ -69,7 +58,7 @@ if (isset($_POST['login'])) {
             <div class="container">
                 <div class="row">
                     <div class="col-sm-8 col-sm-offset-2 text">
-                        <h1>Login Form</h1>
+                        <h1>เข้าสู่ระบบ</h1>
 
                     </div>
                 </div>
@@ -77,29 +66,28 @@ if (isset($_POST['login'])) {
                     <div class="col-sm-6 col-sm-offset-3 form-box">
                         <div class="form-top">
                             <div class="form-top-left">
-                                <h3>Login to our site</h3>
-
+                                <!-- <h3>Login to our site</h3> -->
                             </div>
 
                         </div>
                         <div class="form-bottom">
                             <form role="form" action="" method="post" class="login-form">
                                 <div class="form-group">
-                                    <label class="sr-only" for="username">Username</label>
-                                    <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="form-username">
+                                    <label class="sr-only" for="username">ชื่อผู้ใช้งาน</label>
+                                    <input type="text" name="username" placeholder="ชื่อผู้ใช้งาน..." class="form-username form-control" id="form-username">
                                 </div>
                                 <div class="form-group">
-                                    <label class="sr-only" for="password">Password</label>
-                                    <input type="password" name="password" placeholder="Password..." class="form-password form-control" id="form-password">
+                                    <label class="sr-only" for="password">รหัสผ่าน</label>
+                                    <input type="password" name="password" placeholder="รหัสผ่าน..." class="form-password form-control" id="form-password">
                                 </div>
-                                <button type="submit" class="btn" name="login">Sign in!</button>
+                                <button type="submit" class="btn" name="login">เข้าสู่ระบบ</button>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-3 social-login">
-                        <h3>...<a href="forgot_password.php">Forgot Password ?</a> or <a href="register.php">Register...</a></h3>
+                        <h3>...<a href="../index.php">หน้าแรก</a> หรือ <a href="register.php">ลงทะเบียน...</a></h3>
                     </div>
                 </div>
             </div>

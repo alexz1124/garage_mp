@@ -54,7 +54,7 @@ $result_l = $package->Select_package_size("L");
                 <div class="col-md-8 col-xs-12">
                     <ul class="left-info">
                         <li><a href="#"><i class="fa fa-envelope"></i>contact@company.com</a></li>
-                        <li><a href="#"><i class="fa fa-phone"></i>123-456-7890</a></li>
+                        <li><a href="#"><i class="fa fa-phone"></i>082-326-1716 (เอ็ม)</a></li>
                     </ul>
                 </div>
                 <div class="col-md-4">
@@ -79,7 +79,7 @@ $result_l = $package->Select_package_size("L");
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="../index.php">
-                    <h2>Blog <em> Website</em></h2>
+                    <h2>MP <em> GARAGE</em></h2>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -128,7 +128,7 @@ $result_l = $package->Select_package_size("L");
                     <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #f5fa70;">S</span></h2>
                 </div>
                 <table id="myTable" class="table" style="margin-bottom: 5rem;">
-                <tr class="header" style="background-color: #f5fa70;">
+                    <tr class="header" style="background-color: #f5fa70;">
                         <th style="width:3%;">#</th>
                         <th style="width:25%;">แพ็คเกจ</th>
                         <th style="width:25%;">ขนาด</th>
@@ -150,7 +150,7 @@ $result_l = $package->Select_package_size("L");
                     <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #a9fa70;">M</span></h2>
                 </div>
                 <table id="myTable" class="table" style="margin-bottom: 5rem;">
-                <tr class="header" style="background-color: #a9fa70;">
+                    <tr class="header" style="background-color: #a9fa70;">
                         <th style="width:3%;">#</th>
                         <th style="width:25%;">แพ็คเกจ</th>
                         <th style="width:25%;">ขนาด</th>
@@ -202,8 +202,8 @@ $result_l = $package->Select_package_size("L");
             <div class="row">
                 <div class="col-md-12">
                     <p>
-                        Copyright © 2020 Company Name
-                        - Template by: <a href="https://www.phpjabbers.com/">PHPJabbers.com</a>
+                        Copyright © 2020 MP GARAGE Name
+                        - CREATE by: MP GARAGE
                     </p>
                 </div>
             </div>
