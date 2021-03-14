@@ -97,7 +97,7 @@ $result = $member->Select_all_packages();
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการแพ็คเกจ</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_user.php\">จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>

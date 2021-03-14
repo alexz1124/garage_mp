@@ -212,7 +212,7 @@ $conn = new DB_con();
 
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById('date').valueAsDate = new Date();
-        document.getElementById("date").setAttribute("min", today);
+        // document.getElementById("date").setAttribute("min", today);
         console.log(new Date())
         getTable();
     }

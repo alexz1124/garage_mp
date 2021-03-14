@@ -2,35 +2,39 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
+include_once('../classes/Cartype.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
+$_cartype = new Cartype($conn->dbcon);
 
 $__id = $_GET['id'];
+$cartype = $_cartype->Select_car($__id);
+$car = mysqli_fetch_assoc($cartype);
 
-$result = $member->Select_member($__id);
+
+
+$result = $member->Select_member($car['M_id']);
 $num = mysqli_fetch_array($result);
-$status = $num['r_status'];
+$name = $num['r_name'];
 
-if (isset($_POST['_EDIT'])) {
+if (isset($_POST['_EDIT_CAR'])) {
 
-    $username = $_POST['user'];
-    $name = $_POST['name'];
-    $password = $_POST['password'];
-    $re_password = $_POST['re-password'];
-    $phone = $_POST['phone'];
-    $status = $_POST['status'];
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $color = $_POST['color'];
+    $license = $_POST['license'];
+    $size = $_POST['size'];
 
-    $result = $member->Update_member($__id, $username, $name, $password, $re_password, $phone, $status);
-    if ($result) {
-        header('Location: manage_user.php');
+
+    $update = $_cartype->Update_car($__id, $brand, $model, $color, $size, $license);
+    if ($update) {
+        header('Location: manage_cartype.php');
         die();
+    }else{
+        echo 55;
     }
 }
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
 
 ?>
 
@@ -121,8 +125,8 @@ if (isset($_POST['_EDIT'])) {
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -139,53 +143,56 @@ if (isset($_POST['_EDIT'])) {
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>แก้ไข<em>ผู้ใช้งาน</em></h2>
+                        <h2>แก้ไข<em>ข้อมูลรถ</em></h2>
                     </div>
 
                     <div class="form-bottom">
-                        <form name="formedit" action="" method="post">
+                        <form name="formadd" action="" method="post">
 
                             <div class="form-group">
-                                <label for="status">สถานะผู้ใช้งาน</label>
-                                <select name="status" class="custom-select">
-                                    <option selected value="<?php echo $num['r_status']; ?>">สถานะผู้ใช้งาน</option>
-                                    <option value="Owner">Owner</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Employee">Employee</option>
-                                    <option value="User">User</option>
+                                <label for="brand">เจ้าของรถ</label>
+                                <input type="text" placeholder="เจ้าของรถ..." class="form-username form-control" name="name" id="name" value="<?php echo $name; ?>" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="brand">ยี่ห้อ</label>
+                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand" value="<?php echo $car['C_brand']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model">รุ่น</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="model" id="model" value="<?php echo $car['C_model']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color">สี</label>
+                                <input type="text" placeholder="สี..." class="form-username form-control" name="color" id="color" value="<?php echo $car['C_color']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="license">ทะเบียน</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license" value="<?php echo $car['C_license']; ?>">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="size">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="<?php echo $car['C_size']; ?>"><?php echo $car['C_size']; ?></option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="user">ชื่อผู้ใช้งาน</label>
-                                <input type="text" placeholder="Username..." class="form-username form-control" name="user" id="user" value="<?php echo $num['r_username']; ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="name">ชื่อ</label>
-                                <input type="text" placeholder="Name..." class="form-username form-control" name="name" id="name" value="<?php echo $num['r_name']; ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">รหัสผ่าน</label>
-                                <input type="password" placeholder="New Password..." class="form-username form-control" name="password" id="password">
-                            </div>
-                            <div class="form-group">
-                                <label for="re-password">ยืนยันรหัสผ่าน</label>
-                                <input type="password" placeholder="Confirm New Password..." class="form-username form-control" name="re-password" id="re-password">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" placeholder="Phone Number..." class="form-username form-control" name="phone" id="phone" value="<?php echo $num['r_phone']; ?>">
-                            </div>
-                            <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" name="_EDIT" class="btn btn-success">ยืนยัน</button>
+                                <button type="submit" name="_EDIT_CAR" class="btn btn-success">ยืนยัน</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
-
-
-
             </div>
         </div>
     </div>

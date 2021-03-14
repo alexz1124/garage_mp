@@ -22,18 +22,20 @@ session_start();
   <link rel="stylesheet" href="assets/css/fontawesome.css">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/owl.css">
+
+  <link rel="shortcut icon" href="/favicon.ico" />
 </head>
 
 <body>
 
   <!-- ***** Preloader Start ***** -->
-  <!-- <div id="preloader">
+  <div id="preloader">
     <div class="jumper">
       <div></div>
       <div></div>
       <div></div>
     </div>
-  </div> -->
+  </div>
   <!-- ***** Preloader End ***** -->
 
   <!-- Header -->
@@ -67,7 +69,7 @@ session_start();
   <header class="">
     <nav class="navbar navbar-expand-lg">
       <div class="container">
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-left" href="index.php">
           <img src="assets/images/logo.png" width="160" height="60" class="d-inline-block align-top" alt="">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -76,23 +78,23 @@ session_start();
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item active">
-              <a class="nav-link" href="index.php">หน้าแรก
+            <li class="nav-item">
+              <a class="nav-link active" href="index.php">หน้าแรก
                 <span class="sr-only">(current)</span>
               </a>
             </li>
 
             <?php
             if (isset($_SESSION['permisstion'])) {
-              // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"blog.php\">ADMIN</a></li>");
               if ($_SESSION['permisstion'] == 'User') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/service.php\">บริการ</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/booking.php\">จองคิว</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/car_register.php\">ลงทะเบียนรถ</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"contact.php\">ติดต่อ</a></li>");
               } else if ($_SESSION['permisstion'] == 'Admin') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_package.php\">จัดการแพ็คเกจ</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_user.php\">จัดการผู้ใช้งาน</a></li>");
-                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_cartype.php\">จัดการประเภทรถ</a></li>");
               } else if ($_SESSION['permisstion'] == 'Owner') {
                 if ($_SESSION['permisstion'] == 'Owner') {
                   echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"owner/report_queue.php\">รายงานการจองคิว</a></li>");

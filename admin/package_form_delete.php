@@ -11,12 +11,13 @@ $__id = $_GET['id'];
 $result = $package->Select_package($__id);
 $num = mysqli_fetch_array($result);
 
-if (isset($_POST['_DELETE'])) {
-    $result = $member->Delete_package($__id);
+if (isset($_POST['_DELETE_P'])) {
+    $result = $package->Delete_package($__id);
     if ($result) {
-        header('Location: manage_packages.php');
+        header('Location: manage_package.php');
         die();
     }
+    unset($_POST['_DELETE_P']);
 }
 ?>
 
@@ -106,9 +107,9 @@ if (isset($_POST['_DELETE'])) {
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -146,7 +147,7 @@ if (isset($_POST['_DELETE'])) {
 
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบแพ็คเกจ</button>
+                                <button type="submit" class="btn btn-danger" name="_DELETE_P">ลบแพ็คเกจ</button>
                             </div>
                         </form>
                     </div>

@@ -75,15 +75,34 @@
                 for ($i; $i < 18; $i++) {
                     // echo $time[$i] . "***" . $num['B_time'] . "<br>";
                     if ($time[$i] == $num['B_time']) {
-                        // echo $time[$i] . "==" . $num['B_time'] . "<br>"; //<HAS
-                        echo ("<tr>
-                                    <td id = \"time\">" . $time[$i] . "</td>
-                                    <td id = \"car\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
-                                    <td id = \"license\">" . $car['C_license'] . "</td>
-                                    <td id = \"name\">" . $name['r_name'] . "</td>
-                                    <td id = \"status\"  style=\"color: red;\">" . $num['B_status'] . "</td>                   
-                                    <td> </td>
-                                </tr>");
+                        if ($num['B_status'] == "รอดำเนินการ") {
+                            echo ("<tr>
+                            <td id = \"time\">" . $time[$i] . "</td>
+                            <td id = \"car\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>
+                            <td id = \"status\"  style=\"color: #e6b800;\">" . $num['B_status'] . "</td>                   
+                            <td> </td>
+                        </tr>");
+                        } else if ($num['B_status'] == "สำเร็จ") {
+                            echo ("<tr>
+                            <td id = \"time\">" . $time[$i] . "</td>
+                            <td id = \"car\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>
+                            <td id = \"status\"  style=\"color: #007399;\">" . $num['B_status'] . "</td>                   
+                            <td> </td>
+                        </tr>");
+                        } else {
+                            echo ("<tr>
+                            <td id = \"time\">" . $time[$i] . "</td>
+                            <td id = \"car\">" . $car['C_brand']  . "/" . $car['C_model'] . "/" . $car['C_color'] . "</td>
+                            <td id = \"license\">" . $car['C_license'] . "</td>
+                            <td id = \"name\">" . $name['r_name'] . "</td>
+                            <td id = \"status\"  style=\"color: red;\">" . $num['B_status'] . "</td>                   
+                            <td> </td>
+                        </tr>");
+                        }
                         break;
                     } else if ($time[$i] == "12:00" || $time[$i] == "12:30") {
                         echo ("<tr>
@@ -91,7 +110,6 @@
                                     <td colspan=\"5\" style=\"background-color:#ff3333;\"> พักเที่ยง </td>
                                 </tr>");
                     } else {
-                        // echo "empty <br>";
                         echo ("<tr>
                                     <td id = \"time\">" . $time[$i] . "</td>
                                     <td id = \"name\"> - </td>

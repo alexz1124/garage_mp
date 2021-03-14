@@ -96,6 +96,7 @@ $conn = new DB_con();
                             if ($_SESSION['permisstion'] == 'User') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"service.php\">บริการ</a></li>");
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จองคิว</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"car_register.php\">ลงทะเบียนรถ</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"../contact.php\">ติดต่อ</a></li>");
                             }
                         }

@@ -2,9 +2,39 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
-include_once('../classes/Booking.php');
+include_once('../classes/Cartype.php');
 
 $conn = new DB_con();
+$member = new Member($conn->dbcon);
+$_cartype = new Cartype($conn->dbcon);
+
+$__id = $_GET['id'];
+$cartype = $_cartype->Select_car($__id);
+$car = mysqli_fetch_assoc($cartype);
+
+
+
+$result = $member->Select_member($car['M_id']);
+$num = mysqli_fetch_array($result);
+$name = $num['r_name'];
+
+if (isset($_POST['_EDIT_CAR'])) {
+
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $color = $_POST['color'];
+    $license = $_POST['license'];
+    $size = $_POST['size'];
+
+
+    $update = $_cartype->Update_car($__id, $brand, $model, $color, $size, $license);
+    if ($update) {
+        header('Location: car_register.php');
+        die();
+    } else {
+        echo 55;
+    }
+}
 
 ?>
 
@@ -33,7 +63,7 @@ $conn = new DB_con();
 
 </head>
 
-<body onload="intit()">
+<body>
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -93,9 +123,11 @@ $conn = new DB_con();
 
                         <?php
                         if (isset($_SESSION['permisstion'])) {
-                            if ($_SESSION['permisstion'] == 'Owner') {
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>รายงานการจองคิว</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"report_income.php\">รายงานรายได้</a></li>");
+                            if ($_SESSION['permisstion'] == 'User') {
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"service.php\">บริการ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"booking.php\">จองคิว</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>ลงทะเบียนรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"../contact.php\">ติดต่อ</a></li>");
                             }
                         }
                         ?>
@@ -112,28 +144,55 @@ $conn = new DB_con();
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>รายงาน<em>การจองคิว</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>แก้ไข<em>ข้อมูลรถ</em></h2>
                     </div>
-                </div>
 
-                <!-- content -->
-                <div class="box" style="margin-bottom: 1.6rem;">
-                    <label for="date">เลือกวันที่จะดูรายงาน:</label>
-                    <input type="date" id="date" onchange="getTable()" />
-                </div>
+                    <div class="form-bottom">
+                        <form name="formadd" action="" method="post">
 
-                <div class="box" id="table">
-                    <table id="myTable" class="table">
-                        <tr class="header">
-                            <th style="width:10%;">เวลา</th>
-                            <th style="width:40%;">ยีห้อ / รุ่น / สี</th>
-                            <th style="width:15%;">ทะเบียน</th>
-                            <th style="width:19.9%;">ชื่อลูกค้า</th>
-                            <th style="width:15%;">สถานะ</th>
-                            <th style="width:0.1%;"></th>
-                        </tr>
-                    </table>
+                            <div class="form-group">
+                                <label for="brand">เจ้าของรถ</label>
+                                <input type="text" placeholder="เจ้าของรถ..." class="form-username form-control" name="name" id="name" value="<?php echo $name; ?>" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="brand">ยี่ห้อ</label>
+                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand" value="<?php echo $car['C_brand']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model">รุ่น</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="model" id="model" value="<?php echo $car['C_model']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color">สี</label>
+                                <input type="text" placeholder="สี..." class="form-username form-control" name="color" id="color" value="<?php echo $car['C_color']; ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="license">ทะเบียน</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license" value="<?php echo $car['C_license']; ?>">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="size">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="<?php echo $car['C_size']; ?>"><?php echo $car['C_size']; ?></option>
+                                    <option value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
+                                <button type="submit" name="_EDIT_CAR" class="btn btn-success">ยืนยัน</button>
+                            </div>
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -197,42 +256,8 @@ $conn = new DB_con();
 </body>
 
 <script>
-</script>
-<script>
-    function intit() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-
-        today = yyyy + '-' + mm + '-' + dd;
-        document.getElementById('date').valueAsDate = new Date();
-        // document.getElementById("date").setAttribute("min", today);
-        console.log(new Date())
-        getTable();
-    }
-
-    function getTable() {
-        var str = document.getElementById("date").value;
-        var xhttp;
-        if (str.length == 0) {
-            document.getElementById("table").innerHTML = "";
-            return;
-        }
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("table").innerHTML = this.responseText;
-            }
-        };
-        xhttp.open("GET", "booking_table.php?q=" + str, true);
-        xhttp.send();
+    function alert() {
+        alert(55);
     }
 </script>
 

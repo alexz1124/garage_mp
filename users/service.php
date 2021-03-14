@@ -98,6 +98,7 @@ $result_l = $package->Select_package_size("L");
                             if ($_SESSION['permisstion'] == 'User') {
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>บริการ</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"booking.php\">จองคิว</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"car_register.php\">ลงทะเบียนรถ</a></li>");
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"../contact.php\">ติดต่อ</a></li>");
                             }
                         } else {
@@ -136,15 +137,23 @@ $result_l = $package->Select_package_size("L");
                     </tr>
 
                     <?php $no = 1; ?>
-                    <?php while ($num = mysqli_fetch_array($result_s)) :
+                    <?php
+                    if (mysqli_num_rows($result_s) == 0) {
                         echo ("<tr>
+                        <td colspan=\"4\" style=\"background-color:#d1dced;\"> ไม่พบข้อมูล </td>
+                    </tr>");
+                    } else {
+                        while ($num = mysqli_fetch_array($result_s)) {
+                            echo ("<tr>
                                     <th>" . $no . "</th>
                                     <td id = \"name\">" . $num["P_name"] . "</td>
                                     <td id = \"size\">" . $num["P_size"] . "</td>
                                     <td id = \"price\">" . $num["P_price"] . "</td>
                                 </tr>");
-                        $no++;
-                    endwhile ?>
+                            $no++;
+                        }
+                    }
+                    ?>
                 </table>
                 <div class="box">
                     <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #a9fa70;">M</span></h2>
@@ -158,15 +167,23 @@ $result_l = $package->Select_package_size("L");
                     </tr>
 
                     <?php $no = 1; ?>
-                    <?php while ($num = mysqli_fetch_array($result_m)) :
+                    <?php
+                    if (mysqli_num_rows($result_m) == 0) {
                         echo ("<tr>
+                        <td colspan=\"4\" style=\"background-color:#d1dced;\"> ไม่พบข้อมูล </td>
+                    </tr>");
+                    } else {
+                        while ($num = mysqli_fetch_array($result_m)) {
+                            echo ("<tr>
                                     <th>" . $no . "</th>
                                     <td id = \"name\">" . $num["P_name"] . "</td>
                                     <td id = \"size\">" . $num["P_size"] . "</td>
                                     <td id = \"price\">" . $num["P_price"] . "</td>
                                 </tr>");
-                        $no++;
-                    endwhile ?>
+                            $no++;
+                        }
+                    }
+                    ?>
                 </table>
                 <div class="box">
                     <h2 class="size-label">Size <span class="badge badge-secondary" style="background-color: #a2fcdb;">L</span></h2>
@@ -180,15 +197,23 @@ $result_l = $package->Select_package_size("L");
                     </tr>
 
                     <?php $no = 1; ?>
-                    <?php while ($num = mysqli_fetch_array($result_l)) :
+                    <?php
+                    if (mysqli_num_rows($result_l) == 0) {
                         echo ("<tr>
+                        <td colspan=\"4\" style=\"background-color:#d1dced;\"> ไม่พบข้อมูล </td>
+                    </tr>");
+                    } else {
+                        while ($num = mysqli_fetch_array($result_l)) {
+                            echo ("<tr>
                                     <th>" . $no . "</th>
                                     <td id = \"name\">" . $num["P_name"] . "</td>
                                     <td id = \"size\">" . $num["P_size"] . "</td>
                                     <td id = \"price\">" . $num["P_price"] . "</td>
                                 </tr>");
-                        $no++;
-                    endwhile ?>
+                            $no++;
+                        }
+                    }
+                    ?>
                 </table>
 
                 <!--end content -->

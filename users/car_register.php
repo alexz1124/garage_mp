@@ -2,10 +2,32 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
-include_once('../classes/Booking.php');
+include_once('../classes/Cartype.php');
 
 $conn = new DB_con();
+$member = new Member($conn->dbcon);
+$register_car = new Cartype($conn->dbcon);
+$result = $member->Select_member_user();
 
+$cartype = $register_car->Select_car_By_Mid($_SESSION['id']);
+
+
+if (isset($_POST['_ADD_CAR'])) {
+
+    $brand = $_POST['brand'];
+    $model = $_POST['model'];
+    $color = $_POST['color'];
+    $license = $_POST['license'];
+    $size = $_POST['size'];
+
+    $result = $register_car->Register_Car($brand, $model, $color, $license, $size, $_SESSION['id']);
+    if ($result) {
+        echo "<script>
+        alert(\"ลงทะเบียนรถเรียบร้อย\");
+        window.location.href = '../index.php';
+        </script>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +55,7 @@ $conn = new DB_con();
 
 </head>
 
-<body onload="intit()">
+<body>
 
     <!-- ***** Preloader Start ***** -->
     <div id="preloader">
@@ -93,9 +115,11 @@ $conn = new DB_con();
 
                         <?php
                         if (isset($_SESSION['permisstion'])) {
-                            if ($_SESSION['permisstion'] == 'Owner') {
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>รายงานการจองคิว</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"report_income.php\">รายงานรายได้</a></li>");
+                            if ($_SESSION['permisstion'] == 'User') {
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"service.php\">บริการ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"booking.php\">จองคิว</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>ลงทะเบียนรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"../contact.php\">ติดต่อ</a></li>");
                             }
                         }
                         ?>
@@ -107,33 +131,90 @@ $conn = new DB_con();
 
     <!-- Page Content -->
 
-    <div class="team" style="margin: 0">
+    <div class="team" style="margin: 0 25%">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>รายงาน<em>การจองคิว</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        <h2>ลงทะเบียน<em>รถ</em></h2>
                     </div>
-                </div>
 
-                <!-- content -->
-                <div class="box" style="margin-bottom: 1.6rem;">
-                    <label for="date">เลือกวันที่จะดูรายงาน:</label>
-                    <input type="date" id="date" onchange="getTable()" />
-                </div>
+                    <div class="form-bottom">
+                        <form name="formadd" action="" method="post">
 
-                <div class="box" id="table">
-                    <table id="myTable" class="table">
-                        <tr class="header">
-                            <th style="width:10%;">เวลา</th>
-                            <th style="width:40%;">ยีห้อ / รุ่น / สี</th>
-                            <th style="width:15%;">ทะเบียน</th>
-                            <th style="width:19.9%;">ชื่อลูกค้า</th>
-                            <th style="width:15%;">สถานะ</th>
-                            <th style="width:0.1%;"></th>
-                        </tr>
-                    </table>
+                            <div class="form-group">
+                                <label for="brand">ยี่ห้อ</label>
+                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="model">รุ่น</label>
+                                <input type="text" placeholder="รุ่น..." class="form-username form-control" name="model" id="model">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="color">สี</label>
+                                <input type="text" placeholder="สี..." class="form-username form-control" name="color" id="color">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="license">ทะเบียน</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="size">ขนาด</label>
+                                <select name="size" class="custom-select">
+                                    <option selected value="S">S</option>
+                                    <option value="M">M</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <!-- <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button> -->
+                                <button type="submit" name="_ADD_CAR" class="btn btn-success">ยืนยัน</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <h5 style="margin: 8% 0% 3%">รถของฉัน</h5>
+
+                    <form name="table_user" action="form.php" method="POST" style="width: 100%;">
+                        <table id="myTable" class="table">
+                            <tr class="header">
+                                <th style="width:3%;">#</th>
+                                <th style="width:20%;">ยี่ห้อ</th>
+                                <th style="width:20%;">รุ่น</th>
+                                <th style="width:9%;">สี</th>
+                                <th style="width:10%;">ขนาด</th>
+                                <th style="width:10%;">ทะเบียน</th>
+                                <th style="width:15%;">แก้ไข/ลบ</th>
+                            </tr>
+
+                            <?php $no = 1; ?>
+                            <?php while ($num = mysqli_fetch_array($cartype)) :
+                                $result = $member->Select_member($num['M_id']);
+                                $name = mysqli_fetch_assoc($result);
+                                echo ("<tr>
+                                    <th>" . $no . "</th>
+                                    <td id = \"brand\">" . $num["C_brand"] . "</td>
+                                    <td id = \"model\">" . $num["C_model"] . "</td>
+                                    <td id = \"color\">" . $num["C_color"] . "</td>
+                                    <td id = \"size\">" . $num["C_size"] . "</td>
+                                    <td id = \"license\">" . $num['C_license'] . "</td>
+                                    
+                                    <td><a href=\"car_form_edit.php?id=" . $num["C_id"] . "\"><i class=\"fas fa-edit\"></i></a> /
+                                        <a href=\"car_form_delete.php?id=" . $num["C_id"] . "\"><i class=\"fas fa-trash\"></i></a>
+                                    </td>
+                                </tr>");
+                                $no++;
+                            endwhile ?>
+
+                        </table>
+                    </form>
                 </div>
             </div>
         </div>
@@ -197,42 +278,8 @@ $conn = new DB_con();
 </body>
 
 <script>
-</script>
-<script>
-    function intit() {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1; //January is 0!
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-
-        today = yyyy + '-' + mm + '-' + dd;
-        document.getElementById('date').valueAsDate = new Date();
-        // document.getElementById("date").setAttribute("min", today);
-        console.log(new Date())
-        getTable();
-    }
-
-    function getTable() {
-        var str = document.getElementById("date").value;
-        var xhttp;
-        if (str.length == 0) {
-            document.getElementById("table").innerHTML = "";
-            return;
-        }
-        xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("table").innerHTML = this.responseText;
-            }
-        };
-        xhttp.open("GET", "booking_table.php?q=" + str, true);
-        xhttp.send();
+    function alert(id) {
+        console.log("เรียบร้อย");
     }
 </script>
 

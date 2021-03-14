@@ -26,7 +26,7 @@ class Packages
 
     public function Select_all_packages()
     {
-        $packages = mysqli_query($this->db, "SELECT * FROM packages");
+        $packages = mysqli_query($this->db, "SELECT * FROM packages WHERE `P_delete` != 1");
         return $packages;
     }
 
@@ -39,7 +39,7 @@ class Packages
 
     public function Select_package_size($size)
     {
-        $package = mysqli_query($this->db, "SELECT `P_id`,`P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_size`= '$size'");
+        $package = mysqli_query($this->db, "SELECT `P_id`,`P_name`, `P_size`, `P_price` FROM `packages` WHERE `P_size`= '$size' and `P_delete` != 1");
         // var_dump($package);
         return $package;
     }
@@ -53,7 +53,7 @@ class Packages
 
     function Delete_package($__id)
     {
-        $sql = "DELETE FROM `packages` WHERE id = '$__id'";
+        $sql = "UPDATE `packages` SET `P_delete` = '1' WHERE `P_id` = '$__id'";
         $result = mysqli_query($this->db, $sql);
         return $result;
     }

@@ -19,11 +19,7 @@ if (isset($_POST['_ADD_CAR'])) {
     $size = $_POST['size'];
     $owner = $_POST['owner'];
 
-    // echo $brand, $model, $color, $license, $size,$owner;
-
-
-
-    $result = $register_car->Register_Car($brand, $model, $color, $license, $size, $owner);
+    $result = $register_car->Register_Car_Workin($brand, $model, $color, $license, $size, $owner);
     if ($result) {
         echo "<script>
         alert(\"ลงทะเบียนรถเรียบร้อย\");
@@ -132,7 +128,7 @@ if (isset($_POST['_ADD_CAR'])) {
 
     <!-- Page Content -->
 
-    <div class="team" style="margin: 0">
+    <div class="team" style="margin: 0 20%">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -150,7 +146,7 @@ if (isset($_POST['_ADD_CAR'])) {
 
                             <div class="form-group">
                                 <label for="model">รุ่น</label>
-                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="model" id="model">
+                                <input type="text" placeholder="รุ่น..." class="form-username form-control" name="model" id="model">
                             </div>
 
                             <div class="form-group">
@@ -175,6 +171,11 @@ if (isset($_POST['_ADD_CAR'])) {
 
                             <div class="form-group">
                                 <label for="owner">เจ้าของรถ</label>
+                                <input type="text" placeholder="เจ้าของรถ..." class="form-username form-control" name="owner" id="owner">
+                            </div>
+
+                            <!-- <div class="form-group">
+                                <label for="owner">เจ้าของรถ</label>
                                 <select name="owner" class="custom-select">
                                     <option selected>กรุณาเลือกเจ้าของรถ</option>
                                     <?php
@@ -185,7 +186,7 @@ if (isset($_POST['_ADD_CAR'])) {
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> -->
 
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
@@ -193,6 +194,7 @@ if (isset($_POST['_ADD_CAR'])) {
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>

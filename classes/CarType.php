@@ -13,38 +13,13 @@ class Cartype
     function __construct($conn)
     {
         $this->db = $conn;
-        // $this->Select_member();
     }
 
-    // public function Select_all_member()
-    // {
-    //     $members = mysqli_query($this->db, "SELECT * FROM register");
-    //     return $members;
-    // }
-
-    // public function Select_member($id)
-    // {
-    //     $member = mysqli_query($this->db, "SELECT `r_username`, `r_name`, `r_phone`, `r_status` FROM `register` WHERE `id`= $id");
-    //     return $member;
-    // }
-
-    // public function Update_member($__id, $username, $name, $password, $re_password, $phone, $permisstion)
-    // {
-    //     echo $__id, $username, $name, $password, $re_password, $phone, $permisstion;
-
-    //     $sql = "UPDATE `register` SET `r_username`='$username',`r_name`='$name',`r_phone`='$phone',`r_status`='$permisstion' WHERE id = $__id";
-    //     $result = mysqli_query($this->db, $sql);
-    //     return $result;
-    // }
-
-    // function Delete_member($__id)
-    // {
-    //     $sql = "DELETE FROM `register` WHERE id = '$__id'";
-    //     $result = mysqli_query($this->db, $sql);
-    //     return $result;
-    // }
-
-
+    public function Select_all_car()
+    {
+        $members = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE C_delete != 1");
+        return $members;
+    }
 
     public function Register_Car($brand, $model, $color, $license, $size, $id)
     {
@@ -62,6 +37,20 @@ class Cartype
         return $reg;
     }
 
+    public function Register_Car_Workin($brand, $model, $color, $license, $size, $name)
+    {
+
+        $this->C_brand = $brand;
+        $this->C_model = $model;
+        $this->C_color = $color;
+        $this->C_license = $license;
+        $this->C_size = $size;
+
+        $reg = mysqli_query($this->db, "INSERT INTO cartype (`C_brand`, `C_model`, `C_size`, `C_color`, `C_license`, `WORKIN_name`) 
+        VALUES ('$this->C_brand','$this->C_model','$this->C_size','$this->C_color','$this->C_license','$name')");
+        return $reg;
+    }
+
     public function Select_car($id)
     {
         $car = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE `C_id`= $id");
@@ -70,7 +59,21 @@ class Cartype
 
     public function Select_car_By_Mid($M_id)
     {
-        $car = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE `M_id`= $M_id");
+        $car = mysqli_query($this->db, "SELECT * FROM `cartype` WHERE `M_id`= $M_id and C_delete != 1");
         return $car;
+    }
+
+    public function Update_car($__id, $brand, $model, $color, $size, $license)
+    {
+        $sql = "UPDATE `cartype` SET `C_brand`='$brand',`C_model`='$model',`C_size`='$size',`C_color`='$color',`C_license`='$license' where C_id = $__id";
+        $result = mysqli_query($this->db, $sql);
+        return $result;
+    }
+
+    function Delete_car($__id)
+    {
+        $sql = "UPDATE `cartype` SET `C_delete` = '1' WHERE `C_id` = '$__id'";
+        $result = mysqli_query($this->db, $sql);
+        return $result;
     }
 }

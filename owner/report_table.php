@@ -35,14 +35,14 @@
     $month = date("m", strtotime($q));
     $year = date("Y", strtotime($q));
 
-    $g = $month-1;
+    $g = $month - 1;
 
     $result_day = $booking->Select_Booking_by_date_and_status($q, "สำเร็จ");
     $result_month = $booking->Select_Booking_by_month_and_status($month, $year);
     $result_year = $booking->Select_Booking_by_year_and_status($year);
 
     // By date
-    echo "<h6>ตารางแสดงรายได้ประจำวันที่ $q</h6>";
+    echo "<h6 style=\"margin:0 0 1.5% 0;\">ตารางแสดงรายได้ประจำวันที่ <em>$q</em></h6>";
     echo "<form name=\"table_user\" action=\"form.php\" method=\"POST\" style=\"width: 100%;\">
     <table id=\"myTable\" class=\"table\">
         <tr class=\"header\">
@@ -74,9 +74,9 @@
             </form>");
 
     // By month
-    $TH_Month = array("มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฏาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+    $TH_Month = array("มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฏาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม");
     // $month_th = echo $month + 1;
-    echo "<h6>ตารางแสดงรายได้ประจำเดือน $TH_Month[$g]</h6>";
+    echo "<h6 style=\"margin:8% 0 1.5% 0;\">ตารางแสดงรายได้ประจำเดือน <em>$TH_Month[$g]</em></h6>";
     echo "<form name=\"table_user\" action=\"form.php\" method=\"POST\" style=\"width: 100%;\">
     <table id=\"myTable\" class=\"table\">
         <tr class=\"header\">
@@ -108,7 +108,7 @@
     echo ("</table>
             </form>");
     // By year
-    echo "<h6>ตารางแสดงรายได้ประจำปี $year</h6>";
+    echo "<h6 style=\"margin:8% 0 1.5% 0;\">ตารางแสดงรายได้ประจำปี <em>$year</em></h6>";
     echo "<form name=\"table_user\" action=\"form.php\" method=\"POST\" style=\"width: 100%;\">
     <table id=\"myTable\" class=\"table\">
         <tr class=\"header\">

@@ -1,8 +1,14 @@
 <?php
 session_start();
-// if(isset($_SESSION['permisstion'])){
-//   $_SESSION['permisstion'] = "";
-// }
+include_once('../server.php');
+include_once('../classes/Member.php');
+include_once('../classes/Cartype.php');
+
+$conn = new DB_con();
+$member = new Member($conn->dbcon);
+$_cartype = new Cartype($conn->dbcon);
+
+$cartype = $_cartype->Select_all_car();
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +23,9 @@ session_start();
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
 
     <title>MP GARAGE</title>
-
     <!-- Bootstrap core CSS -->
     <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" rel="stylesheet">
 
     <!-- Additional CSS Files -->
     <link rel="stylesheet" href="../assets/css/fontawesome.css">
@@ -109,53 +115,52 @@ session_start();
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>จัดการ<em>ประเภทรถ</em></h2>
-                        <span>อยากใส่ข้อมูลไนอะไรไหม</span>
+                        <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
+                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="team-item">
-                        <img src="assets/images/team-image-1-646x680.jpg" alt="">
-                        <div class="down-content">
-                            <h4>William Smith</h4>
-                            <span>Co-Founder</span>
-                            <p>In sem sem, dapibus non lacus auctor, ornare sollicitudin lacus. Aliquam ipsum urna, semper quis.</p>
 
-                            <p>
-                                <a href="#"><span><i class="fa fa-linkedin"></i></span></a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="team-item">
-                        <img src="assets/images/team-image-2-646x680.jpg" alt="">
-                        <div class="down-content">
-                            <h4>Mary Houston</h4>
-                            <span>Chief Marketing Officer</span>
-                            <p>In sem sem, dapibus non lacus auctor, ornare sollicitudin lacus. Aliquam ipsum urna, semper quis.</p>
-                            <p>
-                                <a href="#"><span><i class="fa fa-linkedin"></i></span></a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="team-item">
-                        <img src="assets/images/team-image-3-646x680.jpg" alt="">
-                        <div class="down-content">
-                            <h4>John Doe</h4>
-                            <span>Financial Analyst</span>
-                            <p>In sem sem, dapibus non lacus auctor, ornare sollicitudin lacus. Aliquam ipsum urna, semper quis.</p>
-                            <p>
-                                <a href="#"><span><i class="fa fa-linkedin"></i></span></a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                <form name="table_user" action="form.php" method="POST" style="width: 100%;">
+                    <table id="myTable" class="table">
+                        <tr class="header">
+                            <th style="width:3%;">#</th>
+                            <th style="width:20%;">ยี่ห้อ</th>
+                            <th style="width:20%;">รุ่น</th>
+                            <th style="width:9%;">สี</th>
+                            <th style="width:10%;">ขนาด</th>
+                            <th style="width:10%;">ทะเบียน</th>
+                            <th style="width:16%;">เจ้าของ</th>
+                            <th style="width:15%;">แก้ไข/ลบ</th>
+                        </tr>
+
+                        <?php $no = 1; ?>
+                        <?php while ($num = mysqli_fetch_array($cartype)) :
+                        $result = $member->Select_member($num['M_id']);
+                        $name = mysqli_fetch_assoc($result);
+                            echo ("<tr>
+                                    <th>" . $no . "</th>
+                                    <td id = \"brand\">" . $num["C_brand"] . "</td>
+                                    <td id = \"model\">" . $num["C_model"] . "</td>
+                                    <td id = \"color\">" . $num["C_color"] . "</td>
+                                    <td id = \"size\">" . $num["C_size"] . "</td>
+                                    <td id = \"license\">" . $num['C_license'] . "</td>
+                                    <td id = \"name\">" . $name['r_name'] . "</td>
+                                    
+                                    <td><a href=\"car_form_edit.php?id=" . $num["C_id"] . "\"><i class=\"fas fa-edit\"></i></a> /
+                                        <a href=\"car_form_delete.php?id=" . $num["C_id"] . "\"><i class=\"fas fa-trash\"></i></a>
+                                    </td>
+                                </tr>");
+                            $no++;
+                        endwhile ?>
+
+                    </table>
+                </form>
+
             </div>
         </div>
     </div>
+
     <!-- Footer Starts Here -->
     <div class="sub-footer">
         <div class="container">

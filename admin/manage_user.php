@@ -5,13 +5,7 @@ include_once('../classes/Member.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
-$ss = "alex";
 $result = $member->Select_all_member();
-
-// while($num = mysqli_fetch_array($result)) {
-//     echo $num['r_name']; 
-//     echo '<br>';
-// }
 ?>
 
 <!DOCTYPE html>
@@ -102,7 +96,7 @@ $result = $member->Select_all_member();
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
                                 echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>

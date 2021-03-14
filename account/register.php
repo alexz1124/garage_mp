@@ -13,14 +13,18 @@
     $re_password = md5($_POST['re-password']);
     $phone = $_POST['phone'];
 
-    $sql = $register->Register($username, $name, $password, $re_password, $phone);
-
-    if ($sql) {
-      echo "<script>alert('ลงทะเบียนเรียบร้อย!');</script>";
-      echo "<script>window.location.href='../index.php'</script>";
+    if ($password != $re_password) {
+      echo "<script>alert('รหัสผ่านไม่ตรงกัน!');</script>";
     } else {
-      echo "<script>alert('ผิดพลาด');</script>";
-      echo "<script>window.location.href='register.php'</script>";
+      $sql = $register->Register($username, $name, $password, $re_password, $phone);
+
+      if ($sql) {
+        echo "<script>alert('ลงทะเบียนเรียบร้อย!');</script>";
+        echo "<script>window.location.href='../index.php'</script>";
+      } else {
+        echo "<script>alert('ผิดพลาด');</script>";
+        echo "<script>window.location.href='register.php'</script>";
+      }
     }
   }
   ?>

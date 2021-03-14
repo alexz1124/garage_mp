@@ -90,7 +90,8 @@ session_start();
               if ($_SESSION['permisstion'] == 'User') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/service.php\">บริการ</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/booking.php\">จองคิว</a></li>");
-                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"contact.php\">ติดต่อ</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"users/car_register.php\">ลงทะเบียนรถ</a></li>");
+                echo ("<li class=\"nav-item\"><a class=\"nav-link active\" href=\"contact.php\">ติดต่อ</a></li>");
               } else if ($_SESSION['permisstion'] == 'Admin') {
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_package.php\">จัดการแพ็คเกจ</a></li>");
                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"admin/manage_user.php\">จัดการผู้ใช้งาน</a></li>");
@@ -117,7 +118,7 @@ session_start();
       <div class="row">
         <div class="col-md-12">
           <h1>ติดต่อเรา</h1>
-
+          <span>บริการ ล้างสี ดูดฝุ่น ขัดเคลือบสี เคลือบแก้ว อบโอโซนฆ่าเชื้อ เปลี่ยนถ่ายน้ำมันเครื่อง</span>
         </div>
       </div>
     </div>

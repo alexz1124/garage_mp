@@ -112,9 +112,9 @@ if (isset($_POST['_EDIT'])) {
                         <?php
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                // echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>

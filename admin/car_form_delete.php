@@ -2,23 +2,31 @@
 session_start();
 include_once('../server.php');
 include_once('../classes/Member.php');
+include_once('../classes/Cartype.php');
 
 $conn = new DB_con();
 $member = new Member($conn->dbcon);
+$_cartype = new Cartype($conn->dbcon);
 
 $__id = $_GET['id'];
+$cartype = $_cartype->Select_car($__id);
+$car = mysqli_fetch_assoc($cartype);
 
 
-$result = $member->Select_member($__id);
+
+$result = $member->Select_member($car['M_id']);
 $num = mysqli_fetch_array($result);
+$name = $num['r_name'];
 
-if (isset($_POST['_DELETE'])) {
-    $result = $member->Delete_member($__id);
-    if ($result) {
-        header('Location: manage_user.php');
+if (isset($_POST['_DELETE_CAR'])) {
+    $delete = $_cartype->Delete_car($__id);
+    if ($delete) {
+        header('Location: manage_cartype.php');
         die();
     }
+    unset($_POST['_DELETE_P']);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -108,8 +116,8 @@ if (isset($_POST['_DELETE'])) {
                         if (isset($_SESSION['permisstion'])) {
                             if ($_SESSION['permisstion'] == 'Admin') {
                                 echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_package.php\">จัดการแพ็คเกจ</a></li>");
-                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
-                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
+                                echo ("<li class=\"nav-item\"><a class=\"nav-link\" href=#>จัดการผู้ใช้งาน</a></li>");
+                                echo ("<li class=\"nav-item active\"><a class=\"nav-link\" href=\"manage_cartype.php\">จัดการประเภทรถ</a></li>");
                             }
                         }
                         ?>
@@ -121,43 +129,55 @@ if (isset($_POST['_DELETE'])) {
 
     <!-- Page Content -->
 
-    <div class="team" style="margin: 0">
+    <div class="team" style="margin: 0 30%">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="section-heading">
-                        <h2>ลบ<em>ผู้ใช้งาน</em></h2>
+                        <h2>ลบ<em>ข้อมูลรถ</em></h2>
                     </div>
 
                     <div class="form-bottom">
-                        <form name="formdelete" action="" method="post">
+                        <form name="formadd" action="" method="post">
+
                             <div class="form-group">
-                                <label for="status">สถานะผู้ใช้งาน</label>
-                                <input type="text" class="form-control" id="status" value="<?php echo $num['r_status']; ?>" disabled>
-                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                <label for="brand">เจ้าของรถ</label>
+                                <input type="text" placeholder="เจ้าของรถ..." class="form-username form-control" name="name" id="name" value="<?php echo $name; ?>" disabled>
                             </div>
+
                             <div class="form-group">
-                                <label for="username">ชื่อผู้ใช้งาน</label>
-                                <input type="text" name="username" placeholder="Username..." class="form-username form-control" id="username" value="<?php echo $num['r_username']; ?>" disabled>
+                                <label for="brand">ยี่ห้อ</label>
+                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand" value="<?php echo $car['C_brand']; ?>" disabled>
                             </div>
+
                             <div class="form-group">
-                                <label for="name">ชื่อ</label>
-                                <input type="text" name="name" placeholder="Name..." class="form-username form-control" id="name" value="<?php echo $num['r_name']; ?>" disabled>
+                                <label for="model">รุ่น</label>
+                                <input type="text" placeholder="ราคา..." class="form-username form-control" name="model" id="model" value="<?php echo $car['C_model']; ?>" disabled>
                             </div>
+
                             <div class="form-group">
-                                <label for="phone">หมายเลขโทรศัพท์</label>
-                                <input type="text" name="phone" placeholder="Phone Number..." class="form-username form-control" id="phone" value="<?php echo $num['r_phone']; ?>" disabled>
+                                <label for="color">สี</label>
+                                <input type="text" placeholder="สี..." class="form-username form-control" name="color" id="color" value="<?php echo $car['C_color']; ?>" disabled>
                             </div>
+
+                            <div class="form-group">
+                                <label for="license">ทะเบียน</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license" value="<?php echo $car['C_license']; ?>" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="size">ขนาด</label>
+                                <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="size" id="size" value="<?php echo $car['C_size']; ?>" disabled>
+                            </div>
+
                             <div class="form-group">
                                 <button type="button" class="btn btn-secondary" onclick="history.go(-1)">ย้อนกลับ</button>
-                                <button type="submit" class="btn btn-danger" name="_DELETE">ลบผู้ใช้งาน</button>
+                                <button type="submit" name="_DELETE_CAR" class="btn btn-danger">ลบข้อมูลรถ</button>
                             </div>
                         </form>
                     </div>
+
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -220,8 +240,8 @@ if (isset($_POST['_DELETE'])) {
 </body>
 
 <script>
-    function alert(id) {
-        console.log(id);
+    function alert() {
+        alert(55);
     }
 </script>
 
