@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2021 at 12:35 PM
+-- Generation Time: Mar 14, 2021 at 08:56 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.3.26
 
@@ -42,12 +42,7 @@ CREATE TABLE `booking` (
 --
 
 INSERT INTO `booking` (`B_id`, `M_id`, `B_date`, `B_time`, `P_id`, `B_status`, `C_id`) VALUES
-(1, 16, '2021-03-23', '14:00', 3, 'สำเร็จ', 1),
-(2, 15, '2021-03-23', '08:00', 2, 'จอง', 2),
-(3, 16, '2021-03-24', '13:00', 3, 'สำเร็จ', 2),
-(8, 16, '2021-03-09', '08:00', 1, 'รอดำเนินการ', 1),
-(9, 16, '2021-03-09', '09:30', 1, 'กำลังล้าง', 1),
-(10, 16, '2021-03-09', '16:30', 1, 'รอดำเนินการ', 1);
+(11, 16, '2021-03-14', '13:30', 10, 'สำเร็จ', 32);
 
 -- --------------------------------------------------------
 
@@ -62,16 +57,19 @@ CREATE TABLE `cartype` (
   `C_size` varchar(2) NOT NULL,
   `C_color` varchar(50) NOT NULL,
   `C_license` varchar(10) NOT NULL,
-  `M_id` int(11) NOT NULL
+  `M_id` int(11) DEFAULT 66,
+  `C_delete` int(1) NOT NULL,
+  `WORKIN_name` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `cartype`
 --
 
-INSERT INTO `cartype` (`C_id`, `C_brand`, `C_model`, `C_size`, `C_color`, `C_license`, `M_id`) VALUES
-(1, 'TOYOTA', 'Vios', 'S', 'Red', 'กข1234', 16),
-(2, 'TOYOTA', 'Vigo', 'L', 'Blue', 'กด5545', 15);
+INSERT INTO `cartype` (`C_id`, `C_brand`, `C_model`, `C_size`, `C_color`, `C_license`, `M_id`, `C_delete`, `WORKIN_name`) VALUES
+(31, 'BMW', 'X1', 'L', 'Black', 'กก9999', 16, 0, ''),
+(32, 'Ford', 'Ranger', 'M', 'Pink', 'ยน5484', 16, 0, ''),
+(33, 'Honda', 'Civic', 'S', 'Red', 'หก6666', 16, 0, '');
 
 -- --------------------------------------------------------
 
@@ -83,18 +81,18 @@ CREATE TABLE `packages` (
   `P_id` int(11) NOT NULL,
   `P_name` varchar(100) NOT NULL,
   `P_price` varchar(20) NOT NULL,
-  `P_size` varchar(2) NOT NULL
+  `P_size` varchar(2) NOT NULL,
+  `P_delete` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `packages`
 --
 
-INSERT INTO `packages` (`P_id`, `P_name`, `P_price`, `P_size`) VALUES
-(1, 'ล้างรถ', '200', 'S'),
-(2, 'เคลือบสี', '500', 'M'),
-(3, 'ล้างรถ + เคลือบสี + อบโอโซน', '1500', 'L'),
-(7, 'ทุบรถพัง', '5000', 'M');
+INSERT INTO `packages` (`P_id`, `P_name`, `P_price`, `P_size`, `P_delete`) VALUES
+(9, 'ล้างรถ', '199', 'S', 0),
+(10, 'เคลือบสี', '599', 'M', 0),
+(11, 'อบโอโซน', '999', 'L', 0);
 
 -- --------------------------------------------------------
 
@@ -109,19 +107,19 @@ CREATE TABLE `register` (
   `r_phone` varchar(20) NOT NULL,
   `r_password` varchar(50) NOT NULL,
   `r_confirmpassword` varchar(50) NOT NULL,
-  `r_status` varchar(20) NOT NULL
+  `r_status` varchar(20) NOT NULL,
+  `M_delete` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `register`
 --
 
-INSERT INTO `register` (`id`, `r_username`, `r_name`, `r_phone`, `r_password`, `r_confirmpassword`, `r_status`) VALUES
-(8, 'admin', 'test_admin', '0222222222', '21232f297a57a5a743894a0e4a801fc3', '21232f297a57a5a743894a0e4a801fc3', 'Admin'),
-(9, 'owner', 'test_owner', '02125454845', '72122ce96bfec66e2396d2e25225d70a', '72122ce96bfec66e2396d2e25225d70a', 'Owner'),
-(10, 'employee', 'test_employee', '087548455', 'fa5473530e4d1a5a1e1eb53d2fedb10c', 'fa5473530e4d1a5a1e1eb53d2fedb10c', 'Employee'),
-(15, 'delete5', 'delete5', 'delete5', '9fc8a072aa455e7f8a0c51d07404b594', '9fc8a072aa455e7f8a0c51d07404b594', 'User'),
-(16, 'user', 'test_user1', '02125454845', 'ee11cbb19052e40b07aac0ca060c23ee', 'ee11cbb19052e40b07aac0ca060c23ee', 'User');
+INSERT INTO `register` (`id`, `r_username`, `r_name`, `r_phone`, `r_password`, `r_confirmpassword`, `r_status`, `M_delete`) VALUES
+(8, 'admin', 'test_admin', '0222222222', '21232f297a57a5a743894a0e4a801fc3', '21232f297a57a5a743894a0e4a801fc3', 'Admin', 0),
+(9, 'owner', 'test_owner', '02125454845', '72122ce96bfec66e2396d2e25225d70a', '72122ce96bfec66e2396d2e25225d70a', 'Owner', 0),
+(16, 'user', 'test_user', '0222222', 'ee11cbb19052e40b07aac0ca060c23ee', 'ee11cbb19052e40b07aac0ca060c23ee', 'User', 0),
+(68, 'employee', 'test_employee', 'employee', 'fa5473530e4d1a5a1e1eb53d2fedb10c', 'fa5473530e4d1a5a1e1eb53d2fedb10c', 'Employee', 0);
 
 --
 -- Indexes for dumped tables
@@ -163,25 +161,25 @@ ALTER TABLE `register`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `B_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `B_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `cartype`
 --
 ALTER TABLE `cartype`
-  MODIFY `C_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `C_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `P_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `P_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `register`
 --
 ALTER TABLE `register`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- Constraints for dumped tables
