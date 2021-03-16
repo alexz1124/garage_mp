@@ -115,7 +115,7 @@ $conn = new DB_con();
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>จองคิว</h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        
                     </div>
                 </div>
 

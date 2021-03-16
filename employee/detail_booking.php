@@ -125,7 +125,7 @@ $select_by_status = $_booking->Select_Booking_by_status("รอดำเนิ�
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>ข้อมูล<em>การจองคิว</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        
                     </div>
                 </div>
 

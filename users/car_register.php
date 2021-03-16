@@ -18,13 +18,13 @@ if (isset($_POST['_ADD_CAR'])) {
     $model = $_POST['model'];
     $color = $_POST['color'];
     $license = $_POST['license'];
-    $size = $_POST['size'];
+    $size_car = $_POST['size_car'];
 
-    $result = $register_car->Register_Car($brand, $model, $color, $license, $size, $_SESSION['id']);
+    $result = $register_car->Register_Car($brand, $model, $color, $license, $size_car, $_SESSION['id']);
     if ($result) {
         echo "<script>
         alert(\"ลงทะเบียนรถเรียบร้อย\");
-        window.location.href = '../index.php';
+        // window.location.href = '../index.php';
         </script>";
     }
 }
@@ -142,15 +142,37 @@ if (isset($_POST['_ADD_CAR'])) {
                     <div class="form-bottom">
                         <form name="formadd" action="" method="post">
 
+
                             <div class="form-group">
                                 <label for="brand">ยี่ห้อ</label>
-                                <input type="text" placeholder="ยี่ห้อ..." class="form-username form-control" name="brand" id="brand">
+                                <select id="brand" name="brand" class="custom-select" onchange="getmodel()">
+                                    <option selected value="">กรุณาเลือกยี่ห้อรถ</option>
+                                    <option value="HONDA">HONDA</option>
+                                    <option value="TOYOTA">TOYOTA</option>
+                                    <option value="FORD">FORD</option>
+                                    <option value="MAZDA">MAZDA</option>
+                                    <!-- <option value="MITSUBISHI">MITSUBISHI</option>
+                                    <option value="NISSAN">NISSAN</option>
+                                    <option value="BMW">BMW</option>
+                                    <option value="CHEVROLET">CHEVROLET</option>
+                                    <option value="MERCEDES BENZ">MERCEDES BENZ</option>
+                                    <option value="SUZUKI">SUZUKI</option> -->
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="model">รุ่น</label>
-                                <input type="text" placeholder="รุ่น..." class="form-username form-control" name="model" id="model">
+                                <select name="model" class="custom-select" id="get_model" onchange="getSize()">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                </select>
                             </div>
+
+                            <div class="form-group">
+                                <label for="size_car">ขนาด</label>
+                                <input type="text" placeholder="ขนาด..." class="form-username form-control" name="size_car" id="size_car">
+                            </div>
+                         
 
                             <div class="form-group">
                                 <label for="color">สี</label>
@@ -160,16 +182,6 @@ if (isset($_POST['_ADD_CAR'])) {
                             <div class="form-group">
                                 <label for="license">ทะเบียน</label>
                                 <input type="text" placeholder="ทะเบียน..." class="form-username form-control" name="license" id="license">
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="size">ขนาด</label>
-                                <select name="size" class="custom-select">
-                                    <option selected value="S">S</option>
-                                    <option value="M">M</option>
-                                    <option value="L">L</option>
-                                </select>
                             </div>
 
                             <div class="form-group">
@@ -278,8 +290,91 @@ if (isset($_POST['_ADD_CAR'])) {
 </body>
 
 <script>
-    function alert(id) {
-        console.log("เรียบร้อย");
+    function getmodel() {
+        model = document.getElementById("brand").value
+        // console.log(model);
+        if (model == "HONDA") {
+            document.getElementById("get_model").innerHTML = `<select name="model" class="custom-select" id="get_model">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                    <option value="BRIO">BRIO</option>
+                                    <option value="CITY">CITY</option>
+                                    <option value="JAZZ">JAZZ</option>
+                                    <option value="CIVIC">CIVIC</option>
+                                    <option value="HRV">HRV</option>
+                                    <option value="ACCORD">ACCORD</option>
+                                    <option value="FREED">FREED</option>
+                                    <option value="MOBILIO">MOBILIO</option>
+                                    <option value="CRV">CRV</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>`;
+        } else if (model == "TOYOTA") {
+            document.getElementById("get_model").innerHTML = `<select name="model" class="custom-select" id="get_model">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                    <option value="YARIS">YARIS</option>
+                                    <option value="VIOS">VIOS</option>
+                                    <option value="ALTIS">ALTIS</option>
+                                    <option value="PRIUS">PRIUS</option>
+                                    <option value="CAMRY">CAMRY</option>
+                                    <option value="ALPHARD">ALPHARD</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>`;
+        } else if (model == "FORD") {
+            document.getElementById("get_model").innerHTML = `<select name="model" class="custom-select" id="get_model">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                    <option value="FIESTA">FIESTA</option>
+                                    <option value="EVEREST">EVEREST</option>
+                                    <option value="RANGER">RANGER</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>`;
+        } else if (model == "MAZDA") {
+            document.getElementById("get_model").innerHTML = `<select name="model" class="custom-select" id="get_model">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                    <option value="MAZDA-2">MAZDA-2</option>
+                                    <option value="MX5">MX5</option>
+                                    <option value="MAZDA-3">MAZDA-3</option>
+                                    <option value="CX-3">CX-3</option>
+                                    <option value="CX-5">CX-5</option>
+                                    <option value="BT-50">BT-50</option>
+                                    <option value="CX-9">CX-9</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>
+                                </select>`;
+
+            // } else if (model == "MITSUBISHI") {
+
+            // } else if (model == "NISSAN") {
+
+            // } else if (model == "BMW") {
+
+            // } else if (model == "CHEVROLET") {
+
+            // } else if (model == "MERCEDES BENZ") {
+
+            // } else if (model == "SUZUKI") {
+
+        } else {
+            document.getElementById("get_model").innerHTML = `<select name="model" class="custom-select" id="get_model">
+                                    <option selected value="">กรุณาเลือกรุ่น</option>
+                                    <option value="อื่นๆ">อื่นๆ</option>`;
+        }
+    }
+
+    function getSize() {
+        size = document.getElementById("get_model").value
+        console.log(size);
+        var s = ["BRIO", "CITY", "JAZZ", "YARIS", "VIOS", "FIESTA", "MAZDA-2", "MX5"];
+        var m = ["CIVIC", "HRV", "ALTIS", "PRIUS", "MAZDA-3", "CX-3"];
+        var l = ["ACCORD", "FREED", "MOBILIO", "CRV", "CAMRY", "ALPHARD", "EVEREST", "RANGER", "CX-5", "BT-50", "CX-9"];
+        if (s.includes(size)) {
+            document.getElementById('size_car').value = "S";
+        } else if (m.includes(size)) {
+            document.getElementById('size_car').value = "M";
+        } else if (l.includes(size)) {
+            document.getElementById('size_car').value = "L";
+        } else {
+            console.log(4)
+            s = document.getElementById('size_car');
+            s.removeAttribute("disabled");      ;
+        }
     }
 </script>
 

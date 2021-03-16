@@ -120,7 +120,7 @@ $result_l = $package->Select_package_size("L");
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>บริการ</h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        
                     </div>
                 </div>
 

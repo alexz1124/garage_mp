@@ -20,6 +20,7 @@
 
       if ($sql) {
         echo "<script>alert('ลงทะเบียนเรียบร้อย!');</script>";
+        $_SESSION['id'] = $last_id;
         echo "<script>window.location.href='../index.php'</script>";
       } else {
         echo "<script>alert('ผิดพลาด');</script>";

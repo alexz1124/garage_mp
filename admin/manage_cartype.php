@@ -116,7 +116,7 @@ $cartype = $_cartype->Select_all_car();
                 <div class="col-md-12">
                     <div class="section-heading">
                         <h2>จัดการ<em>ผู้ใช้งาน</em></h2>
-                        <span>อยากใส่ข้อมูลไรอะไรไหม</span>
+                        
                     </div>
                 </div>
 
